@@ -8,6 +8,13 @@ public abstract class Cuenta {
     private Moneda moneda;
     private Cliente cliente;
 
+    public Cuenta(int numeroCuenta, Date fechaApertura, Moneda moneda, Cliente cliente) {
+        this.numeroCuenta = numeroCuenta;
+        this.fechaApertura = fechaApertura;
+        this.moneda = moneda;
+        this.cliente = cliente;
+    }
+
     public abstract void cobrarComision();
 
     private void pagoIntereses(){

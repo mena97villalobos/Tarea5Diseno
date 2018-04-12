@@ -85,9 +85,9 @@ public class GestorBD {
 
     }
 
-    public void invocarAlerta(String mensaje) {
+    public static void invocarAlerta(String mensaje, Alert.AlertType tipo) {
 
-        Alert nuevaAlerta = new Alert(Alert.AlertType.WARNING);
+        Alert nuevaAlerta = new Alert(tipo);
         nuevaAlerta.setTitle("Error");
         nuevaAlerta.setContentText(mensaje);
         nuevaAlerta.showAndWait();

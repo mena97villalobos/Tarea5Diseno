@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" />
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="866.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TitledPane animated="false" collapsible="false" layoutX="219.0" layoutY="15.0" prefHeight="227.0" prefWidth="295.0" text="Generar Estado Cuenta">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="188.0" prefWidth="293.0">
+               <children>
+                  <DatePicker fx:id="fechaInicio" layoutX="14.0" layoutY="14.0" prefWidth="265.0" promptText="Fecha Inicial" />
+                  <DatePicker fx:id="fechaFin" layoutX="14.0" layoutY="59.0" prefWidth="265.0" promptText="Fecha Final" />
+                  <TextField fx:id="idCuenta" layoutX="14.0" layoutY="104.0" prefHeight="31.0" prefWidth="265.0" promptText="ID Cuenta" />
+                  <Button fx:id="generarEstadoCuenta" layoutX="14.0" layoutY="149.0" mnemonicParsing="false" text="Generar" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <Button fx:id="iniciar" layoutX="39.0" layoutY="136.0" mnemonicParsing="false" text="Iniciar Simulación" />
+      <TextArea fx:id="log" editable="false" layoutX="14.0" layoutY="652.0" prefHeight="200.0" prefWidth="499.0" />
+      <Label layoutX="14.0" layoutY="616.0" text="Log" />
+      <Label layoutX="14.0" layoutY="14.0" text="Simulación" />
+      <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="255.0" prefHeight="351.0" prefWidth="499.0" text="Variables Entidad Financiera">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="497.0">
+               <children>
+                  <TextField fx:id="comisionAhorros" layoutX="33.0" layoutY="14.0" prefWidth="200.0" promptText="Comisión Ahorros" />
+                  <TextField fx:id="interesesAhorros" layoutX="33.0" layoutY="62.0" prefWidth="200.0" promptText="Intereses Ahorros" />
+                  <TextField fx:id="comisionCorriente" layoutX="263.0" layoutY="14.0" prefWidth="200.0" promptText="Comision Corriente" />
+                  <TextField fx:id="interesesCorriente" layoutX="263.0" layoutY="62.0" prefWidth="200.0" promptText="Intereses Corriente" />
+                  <TextField fx:id="numOperacionesExentas" layoutX="149.5" layoutY="103.0" prefWidth="200.0" promptText="Cant. Operaciones Exentas" />
+                  <CheckBox fx:id="retiros" layoutX="96.0" layoutY="176.0" mnemonicParsing="false" text="Retiros" />
+                  <CheckBox fx:id="intereses" layoutX="96.0" layoutY="224.0" mnemonicParsing="false" text="Cobro Intereses" />
+                  <CheckBox fx:id="comprar" layoutX="96.0" layoutY="271.0" mnemonicParsing="false" text="Compras en Tiendas" />
+                  <CheckBox fx:id="deposito" layoutX="305.0" layoutY="176.0" mnemonicParsing="false" text="Deposito" />
+                  <CheckBox fx:id="comisiones" layoutX="305.0" layoutY="224.0" mnemonicParsing="false" text="Cobro Comisiones" />
+                  <CheckBox fx:id="cajeros" layoutX="305.0" layoutY="271.0" mnemonicParsing="false" text="Retiros en Cajeros" />
+                  <Label layoutX="91.0" layoutY="144.0" text="Operaciones Exentas para el cobro de comisión" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <ComboBox fx:id="cliente" layoutX="14.0" layoutY="44.0" prefWidth="186.0" promptText="Seleccionar Cliente" />
+      <ComboBox fx:id="cuenta" disable="true" layoutX="14.0" layoutY="90.0" prefWidth="186.0" promptText="Seleccionar Cuenta" />
+      <Button fx:id="detenerSimulacion" layoutX="32.0" layoutY="182.0" mnemonicParsing="false" text="Detener Simulación" />
+   </children>
+</Pane>

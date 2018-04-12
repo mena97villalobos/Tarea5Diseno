@@ -9,7 +9,8 @@ public class EntidadFinanciera {
     public static BigDecimal tasaInteresAhorros;
     public static BigDecimal tasaInteresCorriente;
 
-    private void crearCliente(){
+    private void crearCliente(String nombreCompleto){
+        new Cliente(nombreCompleto);
 
     }
     private void crearCuenta(){

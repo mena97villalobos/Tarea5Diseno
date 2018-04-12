@@ -1,12 +1,21 @@
 package Model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Cliente {
+    private static int nextId = 1;
     private int id;
     private String nombreCompleto;
     private ArrayList<Cuenta> cuentas = new ArrayList<>();
 
+    public Cliente(String nombreCompleto){
+        this.id = nextId;
+        nextId ++;
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    //Constructor para jalar datos de la base
     public Cliente(int id, String nombreCompleto) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
@@ -28,7 +37,7 @@ public class Cliente {
         this.nombreCompleto = nombreCompleto;
     }
 
-    private void retiro(){
+    private void retiro(int numeroCuenta, BigDecimal monto){
 
     }
 

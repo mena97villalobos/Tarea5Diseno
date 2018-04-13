@@ -1,7 +1,9 @@
 package Gestores;
 
+import Model.Cliente;
 import javafx.scene.control.Alert;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by Javier on 2/19/2018.
@@ -12,8 +14,7 @@ public class GestorBD {
     private Statement estado;
 
     public GestorBD() {
-        conexion = null;
-        estado = null;
+       establecerConexionSuperUsuario();
     }
 
     public void establecerConexionSuperUsuario() {
@@ -52,7 +53,6 @@ public class GestorBD {
         }
     }
 
-
     public static void invocarAlerta(String mensaje, Alert.AlertType tipo) {
 
         Alert nuevaAlerta = new Alert(tipo);
@@ -62,5 +62,13 @@ public class GestorBD {
 
     }
 
+    public ArrayList<Cliente> getClientes(){
+        ArrayList<Cliente> clientesExtraidos = new ArrayList<>();
 
+        return clientesExtraidos;
+    }
+
+    public int getLastValueCliente(){
+        return 1;
+    }
 }

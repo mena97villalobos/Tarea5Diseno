@@ -5,8 +5,8 @@ import java.util.Date;
 public class CuentaAhorros extends Cuenta {
 
 
-    public CuentaAhorros(int numeroCuenta, Date fechaApertura, Moneda moneda, Cliente cliente) {
-        super(numeroCuenta, fechaApertura, moneda, cliente);
+    public CuentaAhorros(Date fechaApertura, Moneda moneda, Cliente cliente) {
+        super(fechaApertura, moneda, cliente);
     }
 
     @Override

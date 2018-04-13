@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="286.0" prefWidth="722.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerAdministrador">
+   <children>
+      <TextField fx:id="nombreCliente" layoutX="101.0" layoutY="99.0" prefHeight="25.0" prefWidth="248.0" />
+      <Label layoutX="38.0" layoutY="103.0" text="Nombre:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Button fx:id="agregarCliente" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" text="Agregar">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="144.0" layoutY="30.0" text="Agregar Clientes">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="clientesCuentas" layoutX="504.0" layoutY="87.0" prefWidth="150.0" />
+      <Label layoutX="398.0" layoutY="157.0" text="Saldo de Apertura:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="saldoApertura" layoutX="505.0" layoutY="153.0" />
+      <Separator layoutX="368.0" layoutY="17.0" orientation="VERTICAL" prefHeight="253.0" prefWidth="5.0" />
+      <Label layoutX="496.0" layoutY="30.0" text="Agregar Cuentas">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="434.0" layoutY="91.0" text="Cliente:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="agregarCuentas" layoutX="513.0" layoutY="212.0" mnemonicParsing="false" text="Agregar">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

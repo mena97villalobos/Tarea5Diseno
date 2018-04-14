@@ -22,6 +22,7 @@ public class EntidadFinanciera {
         Singleton.getInstance().getGestor().insertarCliente(nombreCompleto);
 
     }
+
     public void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
         GestorBD gestorBase = new GestorBD();
 

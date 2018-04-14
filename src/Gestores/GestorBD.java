@@ -69,12 +69,39 @@ public class GestorBD {
 
     public ArrayList<Cliente> getClientes(){
         ArrayList<Cliente> clientesExtraidos = new ArrayList<>();
+        String sqlClientes = "SELECT * FROM CLIENTE";
+        try{
+            PreparedStatement obtenerClientes = conexion.prepareStatement(sqlClientes);
+            ResultSet clientesObtenidos = obtenerClientes.executeQuery();
 
+            while(clientesObtenidos.next()){
+                int idCliente = Integer.parseInt(clientesObtenidos.getString("ID"));
+                String nombreCliente = clientesObtenidos.getString("NOMBREAPELLIDOS");
+
+                clientesExtraidos.add(new Cliente(idCliente,nombreCliente));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return clientesExtraidos;
     }
 
     public int getLastValueCliente(){
-        return 1;
+        int nextId = 0;
+        String sqlUltimoValor = "SELECT MAX(id)+1 as ULTIMOID FROM CLIENTE";
+
+        try{
+            PreparedStatement ejecutarUltimoValor = conexion.prepareStatement(sqlUltimoValor);
+            ResultSet siguienteId = ejecutarUltimoValor.executeQuery();
+
+            while(siguienteId.next()){
+                nextId = Integer.parseInt(siguienteId.getString("ULTIMOID"));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return nextId;
     }
 
     public void insertarCliente(String nombreCompleto){

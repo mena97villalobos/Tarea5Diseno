@@ -99,4 +99,13 @@ public class Cliente {
 
         return cuentasCorrienteCliente;
     }
+
+    public static ArrayList<String> getNombresClientes(){
+        ArrayList<String> nombreClientes = new ArrayList<>();
+
+        for(int i=0; i<clientes.size();i++){
+            nombreClientes.add(clientes.get(i).getId()+"-"+clientes.get(i).getNombreCompleto());
+        }
+        return nombreClientes;
+    }
 }

@@ -19,7 +19,7 @@ public class EntidadFinanciera {
         GestorBD gestorBase = new GestorBD();
         new Cliente(nombreCompleto);
 
-        gestorBase.insertarCliente(nombreCompleto); // TODO Hacer funcion en GESTORBD apenas este lista la base
+        gestorBase.insertarCliente(nombreCompleto);
 
     }
     private void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){

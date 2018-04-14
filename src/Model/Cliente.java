@@ -79,13 +79,15 @@ public class Cliente {
 
     public ArrayList<CuentaAhorros> getCuentasAhorros(){
         GestorBD gestorBase = new GestorBD();
+        ArrayList<CuentaAhorros> cuentasAhorroCliente = gestorBase.getCuentasDeAhorro(this);
 
-        return gestorBase.getCuentasDeAhorro(this);
+        return cuentasAhorroCliente;
     }
 
     public ArrayList<CuentaCorriente> getCuentasCorriente() {
         GestorBD gestorBase = new GestorBD();
+        ArrayList<CuentaCorriente> cuentasCorrienteCliente = gestorBase.getCuentasCorriente(this);
 
-        return gestorBase.getCuentasCorriente(this);
+        return cuentasCorrienteCliente;
     }
 }

@@ -5,6 +5,7 @@ import Gestores.GestorBD;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class EntidadFinanciera {
@@ -15,16 +16,24 @@ public class EntidadFinanciera {
     public static BigDecimal tasaInteresCorriente;
 
     private void crearCliente(String nombreCompleto){
+        GestorBD gestorBase = new GestorBD();
         new Cliente(nombreCompleto);
-        GestorBD.insertarCliente(nombreCompleto); // TODO Hacer funcion en GESTORBD apenas este lista la base
+
+        gestorBase.insertarCliente(nombreCompleto); // TODO Hacer funcion en GESTORBD apenas este lista la base
 
     }
     private void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
-        if(tipoCuenta.equals("Corriente"))
-            new CuentaCorriente(obtenerFechaSistema(),tipoMoneda,filtrarCliente(identificacionCliente));
-        else
-            new CuentaAhorros(obtenerFechaSistema(),tipoMoneda,filtrarCliente(identificacionCliente));
+        GestorBD gestorBase = new GestorBD();
 
+        Date fechaSistema = obtenerFechaSistema();
+        Cliente clienteEscogido = filtrarCliente(identificacionCliente);
+
+        if(tipoCuenta.equals("Corriente"))
+            new CuentaCorriente(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
+        else
+            new CuentaAhorros(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
+
+        gestorBase.crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda);
     }
 
     private Cliente filtrarCliente(String idCliente){

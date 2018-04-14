@@ -7,12 +7,14 @@ import java.util.ArrayList;
 
 public class Cliente {
 
-    private static ArrayList<Cliente> clientes = GestorBD.getClientes();
+    private static ArrayList<Cliente> clientes = obtenerClientes();
 
-    private static int nextId = GestorBD.getLastValueCliente(); // Esta funcion busca en la base si hay clientes y extrae la ultima identificacion, si no hay clientes deberia poner el valor que este en la semilla de esa tabla, se asume que deberia ser 1, en caso de no ser asi, buscar algo que devuelva el numero donde quedo la semilla
+    private static int nextId = obtenerUltimoIdCliente(); // Esta funcion busca en la base si hay clientes y extrae la ultima identificacion, si no hay clientes deberia poner el valor que este en la semilla de esa tabla, se asume que deberia ser 1, en caso de no ser asi, buscar algo que devuelva el numero donde quedo la semilla
     private int id;
     private String nombreCompleto;
-    private ArrayList<Cuenta> cuentas = new ArrayList<>();
+
+    private ArrayList<CuentaAhorros> cuentasAhorros;// Una de ahorros y una corriente TODO KJDFNGJKDFNGJK
+    private ArrayList<CuentaCorriente> cuentasCorriente;
 
     public Cliente(String nombreCompleto){
         this.id = nextId;
@@ -22,7 +24,7 @@ public class Cliente {
         clientes.add(this);
     }
 
-    //Constructor para jalar datos de la base
+    //Constructor para extraer datos de la base
     public Cliente(int id, String nombreCompleto) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
@@ -55,4 +57,35 @@ public class Cliente {
     public static ArrayList<Cliente> getClientes(){
         return clientes;
     };
+
+    private static ArrayList<Cliente> obtenerClientes(){
+        GestorBD gestorBase = new GestorBD();
+        return gestorBase.getClientes();
+    }
+
+    private static int obtenerUltimoIdCliente(){
+        GestorBD gestorBase = new GestorBD();
+
+        return gestorBase.getLastValueCliente();
+    }
+
+    public void agregarCuentaAhorros(CuentaAhorros cuentaAhorro){
+        cuentasAhorros.add(cuentaAhorro);
+    }
+
+    public void agregarCuentaCorriente(CuentaCorriente cuentaCorriente){
+        cuentasCorriente.add(cuentaCorriente);
+    }
+
+    public ArrayList<CuentaAhorros> getCuentasAhorros(){
+        GestorBD gestorBase = new GestorBD();
+
+        return gestorBase.getCuentasDeAhorro(this);
+    }
+
+    public ArrayList<CuentaCorriente> getCuentasCorriente() {
+        GestorBD gestorBase = new GestorBD();
+
+        return gestorBase.getCuentasCorriente(this);
+    }
 }

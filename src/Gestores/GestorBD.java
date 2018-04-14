@@ -1,7 +1,12 @@
 package Gestores;
 
 import Model.Cliente;
+import Model.CuentaAhorros;
+import Model.CuentaCorriente;
+import Model.Moneda;
 import javafx.scene.control.Alert;
+
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -70,5 +75,25 @@ public class GestorBD {
 
     public int getLastValueCliente(){
         return 1;
+    }
+
+    public void insertarCliente(String nombreCompleto){
+
+    }
+
+    public void crearCuenta(Date fechaSistema, Cliente clienteEscogido, BigDecimal saldoApertura, Moneda tipoMoneda){
+
+    }
+
+    public ArrayList<CuentaAhorros> getCuentasDeAhorro(Cliente clienteBuscar){
+        ArrayList<CuentaAhorros> cuentaAhorros = new ArrayList<>();
+
+        return cuentaAhorros;
+    }
+
+    public ArrayList<CuentaCorriente> getCuentasCorriente(Cliente clienteBuscar){
+        ArrayList<CuentaCorriente> cuentaCorrientes = new ArrayList<>();
+
+        return cuentaCorrientes;
     }
 }

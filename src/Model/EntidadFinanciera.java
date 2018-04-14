@@ -16,10 +16,10 @@ public class EntidadFinanciera {
     public static BigDecimal tasaInteresCorriente;
 
     private void crearCliente(String nombreCompleto){
-        GestorBD gestorBase = new GestorBD();
+
         new Cliente(nombreCompleto);
 
-        gestorBase.insertarCliente(nombreCompleto);
+        Singleton.getInstance().getGestor().insertarCliente(nombreCompleto);
 
     }
     private void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
@@ -33,7 +33,7 @@ public class EntidadFinanciera {
         else
             new CuentaAhorros(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
 
-        gestorBase.crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda);
+        Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda);
     }
 
     private Cliente filtrarCliente(String idCliente){

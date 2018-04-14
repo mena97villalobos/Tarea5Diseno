@@ -20,7 +20,7 @@ public class Singleton {
         return singleton;
     }
 
-    public GestorBD getController(){
+    public GestorBD getGestor(){
         return getInstance().gestorBase;
     }
 }

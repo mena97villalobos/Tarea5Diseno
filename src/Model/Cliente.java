@@ -1,7 +1,5 @@
 package Model;
 
-import Gestores.GestorBD;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -59,14 +57,13 @@ public class Cliente {
     };
 
     private static ArrayList<Cliente> obtenerClientes(){
-        GestorBD gestorBase = new GestorBD();
-        return gestorBase.getClientes();
+        return Singleton.getInstance().getGestor().getClientes();
     }
 
     private static int obtenerUltimoIdCliente(){
-        GestorBD gestorBase = new GestorBD();
 
-        return gestorBase.getLastValueCliente();
+
+        return Singleton.getInstance().getGestor().getLastValueCliente();
     }
 
     public void agregarCuentaAhorros(CuentaAhorros cuentaAhorro){
@@ -78,15 +75,15 @@ public class Cliente {
     }
 
     public ArrayList<CuentaAhorros> getCuentasAhorros(){
-        GestorBD gestorBase = new GestorBD();
-        ArrayList<CuentaAhorros> cuentasAhorroCliente = gestorBase.getCuentasDeAhorro(this);
+
+        ArrayList<CuentaAhorros> cuentasAhorroCliente = Singleton.getInstance().getGestor().getCuentasDeAhorro(this);
 
         return cuentasAhorroCliente;
     }
 
     public ArrayList<CuentaCorriente> getCuentasCorriente() {
-        GestorBD gestorBase = new GestorBD();
-        ArrayList<CuentaCorriente> cuentasCorrienteCliente = gestorBase.getCuentasCorriente(this);
+
+        ArrayList<CuentaCorriente> cuentasCorrienteCliente = Singleton.getInstance().getGestor().getCuentasCorriente(this);
 
         return cuentasCorrienteCliente;
     }

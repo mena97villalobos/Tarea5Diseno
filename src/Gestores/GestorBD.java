@@ -78,7 +78,14 @@ public class GestorBD {
     }
 
     public void insertarCliente(String nombreCompleto){
-
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO CLIENTE (nombreApellidos) VALUES (?)");
+            statement.setString(1, nombreCompleto);
+            statement.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void crearCuenta(Date fechaSistema, String clienteIdentificacion, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta){

@@ -13,9 +13,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Javier on 4/13/2018.
- */
 public class ControllerAdministrador implements Initializable {
 
     @FXML
@@ -43,7 +40,6 @@ public class ControllerAdministrador implements Initializable {
 
     public void initialize(URL fxmlLoations, ResourceBundle resources){
 
-
         agregarCuentas.setOnAction(event -> {
 
             String idClienteSeleccionado = clientesCuentas.getSelectionModel().getSelectedItem().toString().substring(0,clientesCuentas.getSelectionModel().toString().indexOf("-"));
@@ -55,16 +51,19 @@ public class ControllerAdministrador implements Initializable {
 
         });
 
+        agregarCliente.setOnAction(event -> {
+            String nombCliente = nombreCliente.getText();
+
+            entidad.crearCliente(nombCliente);
+        });
+
     }
 
-    public void datosDefecto(){
+    public void datosDefecto() {
 
         tipoMoneda.setItems(FXCollections.observableArrayList(Moneda.values()));
-        tipoCuenta.getItems().addAll("Ahorros","Corriente");
-
+        tipoCuenta.getItems().addAll("Ahorros", "Corriente");
 
     }
-
-
 
 }

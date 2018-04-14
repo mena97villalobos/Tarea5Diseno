@@ -1,5 +1,7 @@
 package Model;
 
+import Gestores.GestorBD;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -26,6 +28,8 @@ public class Cliente {
     public Cliente(int id, String nombreCompleto) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
+        this.cuentasAhorros = getCuentasAhorros();
+        this.cuentasCorriente = getCuentasCorriente();
     }
 
     public int getId() {
@@ -44,11 +48,19 @@ public class Cliente {
         this.nombreCompleto = nombreCompleto;
     }
 
-    private void retiro(int numeroCuenta, BigDecimal monto){
+    public void retiro(int numeroCuenta, BigDecimal monto){
 
     }
 
-    private void deposito(){
+    public void deposito(int numeroCuenta, BigDecimal monto){
+
+    }
+
+    public void compra_comercio(int numeroCuenta, BigDecimal monto){
+
+    }
+
+    public void retiro_cajero(int numeroCuenta, BigDecimal monto){
 
     }
 

@@ -22,7 +22,7 @@ public class EntidadFinanciera {
         Singleton.getInstance().getGestor().insertarCliente(nombreCompleto);
 
     }
-    private void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
+    public void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
         GestorBD gestorBase = new GestorBD();
 
         Date fechaSistema = obtenerFechaSistema();
@@ -33,7 +33,7 @@ public class EntidadFinanciera {
         else
             new CuentaAhorros(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
 
-        Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda,tipoCuenta);
+        Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),identificacionCliente,saldoApertura,tipoMoneda,tipoCuenta);
     }
 
     private Cliente filtrarCliente(String idCliente){

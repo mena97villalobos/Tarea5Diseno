@@ -81,8 +81,22 @@ public class GestorBD {
 
     }
 
-    public void crearCuenta(Date fechaSistema, Cliente clienteEscogido, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta){
+    public void crearCuenta(Date fechaSistema, String clienteIdentificacion, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta){
+        String sqlCuenta = "INSERT INTO CUENTA(fechaApertura,saldo,tipoCuenta,tipoMoneda,idCliente) VALUES(?,?,?,?,?)";
+        int idMoneda = obtenerIdTipoMoneda(tipoMoneda.toString());
+        try{
+            PreparedStatement insercionCuenta = conexion.prepareStatement(sqlCuenta);
 
+            insercionCuenta.setDate(1,fechaSistema);
+            insercionCuenta.setBigDecimal(2,saldoApertura);
+            insercionCuenta.setString(3,tipoCuenta);
+            insercionCuenta.setInt(4,idMoneda);
+            insercionCuenta.setInt(5,Integer.parseInt(clienteIdentificacion));
+
+            insercionCuenta.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<CuentaAhorros> getCuentasDeAhorro(Cliente clienteBuscar){
@@ -95,5 +109,23 @@ public class GestorBD {
         ArrayList<CuentaCorriente> cuentaCorrientes = new ArrayList<>();
 
         return cuentaCorrientes;
+    }
+
+    public int obtenerIdTipoMoneda(String tipoMoneda){
+        String sqlIdMoneda = "SELECT ID FROM MONEDA WHERE tipoMoneda = ?";
+        int idEncontrado = 0;
+        try{
+            PreparedStatement obtenerId = conexion.prepareStatement(sqlIdMoneda);
+            obtenerId.setString(1,tipoMoneda);
+            ResultSet tupleId = obtenerId.executeQuery();
+
+            while(tupleId.next()){
+                idEncontrado = Integer.parseInt(tupleId.getString("ID"));
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return idEncontrado;
     }
 }

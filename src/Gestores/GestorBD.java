@@ -81,7 +81,7 @@ public class GestorBD {
 
     }
 
-    public void crearCuenta(Date fechaSistema, Cliente clienteEscogido, BigDecimal saldoApertura, Moneda tipoMoneda){
+    public void crearCuenta(Date fechaSistema, Cliente clienteEscogido, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta){
 
     }
 

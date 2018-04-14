@@ -33,7 +33,7 @@ public class EntidadFinanciera {
         else
             new CuentaAhorros(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
 
-        Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda);
+        Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),clienteEscogido,saldoApertura,tipoMoneda,tipoCuenta);
     }
 
     private Cliente filtrarCliente(String idCliente){

@@ -20,7 +20,7 @@ public class MainAdministrador  extends Application {
         controladorAdministrador.datosDefecto();
 
         primaryStage.setTitle("Administrador");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 722, 286));
         primaryStage.show();
     }
 

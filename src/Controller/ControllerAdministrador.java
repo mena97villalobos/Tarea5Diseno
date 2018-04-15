@@ -45,23 +45,17 @@ public class ControllerAdministrador implements Initializable {
     public void initialize(URL fxmlLoations, ResourceBundle resources){
 
         agregarCuentas.setOnAction(event -> {
-
             String idClienteSeleccionado = clientesCuentas.getSelectionModel().getSelectedItem().toString().substring(0,clientesCuentas.getSelectionModel().getSelectedItem().toString().indexOf("-"));
             BigDecimal saldoNuevo = new BigDecimal(saldoApertura.getText());
             String tipoCuentaSeleccionada = tipoCuenta.getSelectionModel().getSelectedItem().toString();
             Moneda monedaSeleccionada = Moneda.valueOf(tipoMoneda.getSelectionModel().getSelectedItem().toString());
-
             entidad.crearCuenta(idClienteSeleccionado,saldoNuevo,monedaSeleccionada,tipoCuentaSeleccionada);
-
             limpiarCamposCuenta();
-
         });
 
         agregarCliente.setOnAction(event -> {
             String nombCliente = nombreCliente.getText();
-
             entidad.crearCliente(nombCliente);
-
             limpiarCamposCliente();
         });
 
@@ -73,7 +67,6 @@ public class ControllerAdministrador implements Initializable {
 
     public void datosDefecto() {
         clientesCuentas.setItems(FXCollections.observableArrayList(Cliente.getNombresClientes()));
-
         tipoMoneda.setItems(FXCollections.observableArrayList(Moneda.values()));
         tipoCuenta.getItems().addAll("Ahorros", "Corriente");
 

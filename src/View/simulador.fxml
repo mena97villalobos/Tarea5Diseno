@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerSimulador">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerSimulador">
    <children>
       <TitledPane animated="false" collapsible="false" layoutX="219.0" layoutY="15.0" prefHeight="227.0" prefWidth="295.0" text="Generar Estado Cuenta">
         <content>
@@ -27,8 +27,8 @@
         </content>
       </TitledPane>
       <Button fx:id="iniciarSimulacion" layoutX="39.0" layoutY="136.0" mnemonicParsing="false" text="Iniciar Simulación" />
-      <TextArea fx:id="log" editable="false" layoutX="520.0" layoutY="161.0" prefHeight="200.0" prefWidth="499.0" />
-      <Label layoutX="520.0" layoutY="140.0" text="Log">
+      <TextArea fx:id="log" editable="false" layoutX="520.0" layoutY="32.0" prefHeight="573.0" prefWidth="499.0" />
+      <Label layoutX="520.0" layoutY="11.0" text="Log">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>

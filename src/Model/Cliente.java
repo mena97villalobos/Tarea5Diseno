@@ -14,8 +14,8 @@ public class Cliente {
     private int id;
     private String nombreCompleto;
 
-    private ArrayList<CuentaAhorros> cuentasAhorros;
-    private ArrayList<CuentaCorriente> cuentasCorriente;
+    private ArrayList<CuentaAhorros> cuentasAhorros = new ArrayList<>();
+    private ArrayList<CuentaCorriente> cuentasCorriente = new ArrayList<>();
 
     public Cliente(String nombreCompleto){
         this.id = nextId;

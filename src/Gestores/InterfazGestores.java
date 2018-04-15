@@ -49,4 +49,6 @@ public interface InterfazGestores {
 
     ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta);
 
+    void modificarCuenta(Cuenta cuenta, String tipoCuenta, boolean esExento);
+
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CuentaCorriente extends Cuenta {
-
     private int opRealizadas;
 
     public CuentaCorriente(Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldoApertura) {
@@ -25,4 +24,12 @@ public class CuentaCorriente extends Cuenta {
     public void cobrarComision() {
 
     }
+    public int getOpRealizadas() {
+        return opRealizadas;
+    }
+
+    public void setOperacionesRealizadas(){
+        this.opRealizadas++;
+    }
+
 }

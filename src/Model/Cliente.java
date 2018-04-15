@@ -54,9 +54,11 @@ public class Cliente {
         Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
 
         cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
+
         cuenta.agregarMovimientos(mov);
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+            Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
         }
     }
 

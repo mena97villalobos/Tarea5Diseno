@@ -13,7 +13,7 @@ public class Movimiento {
     private boolean cobroExento;
     private Operacion operacion;
 
-    public Movimiento(Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion) {
+    public Movimiento(Date fechaTransaccion,BigDecimal monto, boolean cobroExento, Operacion operacion) {
         this.idOperacion = nextID;
         nextID ++;
         this.monto = monto;

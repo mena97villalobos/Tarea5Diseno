@@ -329,7 +329,7 @@ public class GestorBD implements InterfazGestores {
 
 
     public ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta){
-        String sqlMovimientos = "SELECT MOVIMIENTO.ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO, OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
+        String sqlMovimientos = "SELECT MOVIMIENTO.ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
         ArrayList<Movimiento> movimientos = new ArrayList<>();
         try{
             PreparedStatement ejecutarMovimientos = conexion.prepareStatement(sqlMovimientos);
@@ -354,5 +354,43 @@ public class GestorBD implements InterfazGestores {
             e.printStackTrace();
         }
         return movimientos;
+    }
+
+    public void modificarCuenta(Cuenta cuenta, String tipoCuenta, boolean esExento){
+        String sqlModificar = "";
+        if(tipoCuenta.equals("Ahorros")) {
+            sqlModificar = "UPDATE CUENTA SET SALDO = ? WHERE NUMEROCUENTA = ?";
+        }
+        else{
+            sqlModificar = "UPDATE CUENTA SET SALDO = ?, OPERACIONESREALIZADAS = ? WHERE NUMEROCUENTA = ?";
+            cuenta = cuenta;
+        }
+
+        try{
+            if(tipoCuenta.equals("Ahorros")){
+                PreparedStatement ejecutarModificarAhorros = conexion.prepareStatement(sqlModificar);
+                ejecutarModificarAhorros.setBigDecimal(1, cuenta.getSaldo());
+                ejecutarModificarAhorros.setInt(2,cuenta.getNumeroCuenta());
+
+                ejecutarModificarAhorros.executeUpdate();
+            }else{
+                CuentaCorriente cuentaUsada = (CuentaCorriente) cuenta;
+
+                if(esExento)
+                    cuentaUsada.setOperacionesRealizadas();
+
+                PreparedStatement ejecutarModificarCorriente = conexion.prepareStatement(sqlModificar);
+                ejecutarModificarCorriente.setBigDecimal(1, cuenta.getSaldo());
+                ejecutarModificarCorriente.setInt(2,cuentaUsada.getOpRealizadas());
+                ejecutarModificarCorriente.setInt(3,cuentaUsada.getNumeroCuenta());
+
+                ejecutarModificarCorriente.executeUpdate();
+            }
+
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

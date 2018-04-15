@@ -13,13 +13,13 @@ public class Movimiento {
     private boolean cobroExento;
     private Operacion operacion;
 
-    public Movimiento(BigDecimal monto, boolean cobroExento, Operacion operacion) {
+    public Movimiento(Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion) {
         this.idOperacion = nextID;
         nextID ++;
         this.monto = monto;
         this.cobroExento = cobroExento;
         this.operacion = operacion;
-        this.fechaTransaccion = new Date();
+        this.fechaTransaccion = fechaTransaccion;
     }
 
     // Constructor para obtener datos de la Base

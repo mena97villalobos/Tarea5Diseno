@@ -50,26 +50,34 @@ public class Cliente {
     }
 
     public void retiro(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
-        Movimiento mov = new Movimiento(1, fechaTransaccion, monto, esExento, Operacion.RETIRO);
-        Cuenta cuenta;
-        if (tipoCuenta == "Ahorros"){
+        Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.RETIRO);
+        Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
+
+        cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
+        cuenta.agregarMovimientos(mov);
+        if (cuenta.getSaldo().compareTo(monto) >= 0){
+            cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+        }
+
+    }
+
+    public Cuenta obtenerCuenta(String tipoCuenta, int numeroCuenta){
+        if (tipoCuenta.equals("Ahorros")){
             for (int i = 0; i < cuentasAhorros.size(); i++){
-                cuenta = cuentasAhorros.get(i);
-                if (cuenta.getNumeroCuenta() == numeroCuenta){
-                    cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
-                    cuenta.agregarMovimientos(mov);
+                if (cuentasAhorros.get(i).getNumeroCuenta() == numeroCuenta){
+                    return cuentasAhorros.get(i);
                 }
             }
         }
         else{
             for (int i = 0; i < cuentasCorriente.size(); i++){
-                cuenta = cuentasCorriente.get(i);
-                if (cuenta.getNumeroCuenta() == numeroCuenta){
-                    cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
-                    cuenta.agregarMovimientos(mov);
+
+                if (cuentasCorriente.get(i).getNumeroCuenta() == numeroCuenta){
+                    return cuentasCorriente.get(i);
                 }
             }
         }
+        return null;
     }
 
     public void deposito(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){

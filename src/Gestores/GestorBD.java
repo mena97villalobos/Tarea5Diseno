@@ -162,4 +162,42 @@ public class GestorBD {
         }
         return idEncontrado;
     }
+
+    public void  guardarParametrosConfiguracion(BigDecimal comisionCuentaAhorros,BigDecimal comisionCuentaCorriente,BigDecimal interesesCuentaAhorros,BigDecimal interesesCuentaCorriente,int cantOperacionesExentas){
+        String sqlConfiguracion = "";
+
+        if(existenParametros())
+            sqlConfiguracion = "UPDATE CONFIGURACION SET COMISIONCUENTAAHORRO = ?, COMISIONCUENTACORRIENTE = ?, TASAINTERESAHORROS = ?, TASAINTERESCORRIENTE = ?, CANTOPERACIONESEXENTAS =?";
+        else
+            sqlConfiguracion = "INSERT INTO CONFIGURACION VALUES (?,?,?,?,?)";
+
+        try{
+            PreparedStatement cambiarParametros = conexion.prepareStatement(sqlConfiguracion) ;
+            cambiarParametros.setBigDecimal(1,comisionCuentaAhorros);
+            cambiarParametros.setBigDecimal(2,comisionCuentaCorriente);
+            cambiarParametros.setBigDecimal(3,interesesCuentaAhorros);
+            cambiarParametros.setBigDecimal(4,interesesCuentaCorriente);
+            cambiarParametros.setInt(5,cantOperacionesExentas);
+
+            cambiarParametros.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean existenParametros(){
+        String sqlParametros = "SELECT  * FROM CONFIGURACION";
+
+        try{
+            PreparedStatement verificarParametros = conexion.prepareStatement(sqlParametros);
+            ResultSet parametrosObtenidos = verificarParametros.executeQuery();
+
+
+            if(parametrosObtenidos.next())
+                return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -43,7 +43,7 @@ public class EntidadFinanciera {
                 return Cliente.getClientes().get(i);
         }
         return null;
-    }
+    } //TODO Creo que seria mejor que estuviera en la clase ClIENTE como un metodo de clase.
 
     public java.util.Date obtenerFechaSistema(){
         java.util.Date fechaSistemaReal = null;

@@ -8,6 +8,7 @@ import java.util.Date;
 
 public abstract class Cuenta {
     private static int nextIdCuenta;
+    private ArrayList<Movimiento> movimientos = new ArrayList();
     private int numeroCuenta;
     private Date fechaApertura;
     private Moneda moneda;
@@ -33,6 +34,10 @@ public abstract class Cuenta {
         this.moneda = moneda;
         this.cliente = cliente;
         this.saldo = saldo;
+    }
+
+    public void agregarMovimientos(Movimiento movimiento){
+        this.movimientos.add(movimiento);
     }
 
     public abstract void cobrarComision();

@@ -51,6 +51,7 @@ public abstract class Cuenta {
     private void obtenerMovimientos(Date fechaInicio, Date fechaFin){
 
     }
+
     public int getNumeroCuenta() {
         return numeroCuenta;
     }

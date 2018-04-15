@@ -47,15 +47,15 @@ public class ThreadSimulador implements Runnable {
                     break;
                 case 1:
                     System.out.println("Caso Deposito");
-                    this.cliente.deposito(numeroCuenta, montoTran, dateInicio, tipoCuenta);
+                    this.cliente.deposito(numeroCuenta, montoTran, dateInicio, tipoCuenta, listaOperacionesExentas[1]);
                     break;
                 case 2:
                     System.out.println("Caso Compra Comercio");
-                    this.cliente.compra_comercio(numeroCuenta, montoTran, dateInicio, tipoCuenta);
+                    this.cliente.compra_comercio(numeroCuenta, montoTran, dateInicio, tipoCuenta, listaOperacionesExentas[2]);
                     break;
                 case 3:
                     System.out.println("Caso Retiro Cajero");
-                    this.cliente.retiro_cajero(numeroCuenta, montoTran, dateInicio, tipoCuenta);
+                    this.cliente.retiro_cajero(numeroCuenta, montoTran, dateInicio, tipoCuenta, listaOperacionesExentas[3]);
                     break;
             }
             dateInicio = aumentarFecha(dateInicio);

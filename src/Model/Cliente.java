@@ -19,7 +19,7 @@ public class Cliente {
 
     public Cliente(String nombreCompleto){
         this.id = nextId;
-        nextId ++;
+        nextId++;
         this.nombreCompleto = nombreCompleto;
 
         clientes.add(this);
@@ -58,7 +58,37 @@ public class Cliente {
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
         }
+    }
 
+    public void deposito(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
+        Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.DEPOSITO);
+        Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
+
+        cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
+        cuenta.agregarMovimientos(mov);
+        cuenta.setSaldo(cuenta.getSaldo().add(monto));
+    }
+
+    public void compra_comercio(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
+        Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.COMPRA_COMERCIO);
+        Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
+
+        cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
+        cuenta.agregarMovimientos(mov);
+        if (cuenta.getSaldo().compareTo(monto) >= 0){
+            cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+        }
+    }
+
+    public void retiro_cajero(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
+        Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.RETIRO_CAJERO);
+        Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
+
+        cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
+        cuenta.agregarMovimientos(mov);
+        if (cuenta.getSaldo().compareTo(monto) >= 0){
+            cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+        }
     }
 
     public Cuenta obtenerCuenta(String tipoCuenta, int numeroCuenta){
@@ -71,25 +101,12 @@ public class Cliente {
         }
         else{
             for (int i = 0; i < cuentasCorriente.size(); i++){
-
                 if (cuentasCorriente.get(i).getNumeroCuenta() == numeroCuenta){
                     return cuentasCorriente.get(i);
                 }
             }
         }
         return null;
-    }
-
-    public void deposito(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
-
-    }
-
-    public void compra_comercio(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
-
-    }
-
-    public void retiro_cajero(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
-
     }
 
     public static ArrayList<Cliente> getClientes(){

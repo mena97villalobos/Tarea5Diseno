@@ -48,10 +48,12 @@ public abstract class Cuenta {
         Movimiento mov = new Movimiento(fechaTransaccion, monto, false, Operacion.PAGO_INTERESES);
         agregarMovimientos(mov);
         saldo = saldo.add(monto);
+
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.PAGO_INTERESES,new java.sql.Date(fechaTransaccion.getTime()),monto,false,this);
     }
 
     private void obtenerMovimientos(Date fechaInicio, Date fechaFin){
-
+        //TODO ESTE ES EL DE ESTADO DE CUENTA
     }
 
     public int getNumeroCuenta() {

@@ -391,6 +391,8 @@ public class GestorBD implements InterfazGestores {
                 ejecutarModificarAhorros.setInt(2,cuenta.getNumeroCuenta());
 
                 ejecutarModificarAhorros.executeUpdate();
+
+                ejecutarModificarAhorros.close();
             }else{
                 CuentaCorriente cuentaUsada = (CuentaCorriente) cuenta;
 
@@ -403,6 +405,8 @@ public class GestorBD implements InterfazGestores {
                 ejecutarModificarCorriente.setInt(3,cuentaUsada.getNumeroCuenta());
 
                 ejecutarModificarCorriente.executeUpdate();
+
+                ejecutarModificarCorriente.close();
             }
 
 
@@ -426,6 +430,8 @@ public class GestorBD implements InterfazGestores {
             ejecutarMovimiento.setInt(5,cuenta.getNumeroCuenta());
 
             ejecutarMovimiento.executeUpdate();
+
+            ejecutarMovimiento.close();
         }catch (SQLException e){
             e.printStackTrace();
         }

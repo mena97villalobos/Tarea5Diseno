@@ -12,11 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadSimulador implements Runnable {
 
-    public static void main(String[] args){
+  /*  public static void main(String[] args){
         boolean a[] = {true, false};
         ThreadSimulador ts = new ThreadSimulador(null, a, 1, new Date(), "Ahorros");
         ts.run();
-    }
+    }*/
 
     private Random ran;
     private int avanceFecha;

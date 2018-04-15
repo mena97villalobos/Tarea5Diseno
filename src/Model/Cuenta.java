@@ -44,8 +44,10 @@ public abstract class Cuenta {
 
     public abstract void cobrarComision();
 
-    private void pagoIntereses(){
-
+    public void pagoIntereses(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, BigDecimal tasaInteres){
+        Movimiento mov = new Movimiento(fechaTransaccion, monto, false, Operacion.PAGO_INTERESES);
+        agregarMovimientos(mov);
+        saldo = saldo.add(saldo.multiply(tasaInteres));
     }
 
     private void obtenerMovimientos(Date fechaInicio, Date fechaFin){

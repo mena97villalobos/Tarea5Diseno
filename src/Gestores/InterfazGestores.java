@@ -51,4 +51,6 @@ public interface InterfazGestores {
 
     void modificarCuenta(Cuenta cuenta, String tipoCuenta, boolean esExento);
 
+    void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta);
+
 }

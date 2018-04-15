@@ -229,6 +229,25 @@ public class GestorBD implements InterfazGestores {
         return idEncontrado;
     }
 
+    public int obtenerIdOperacion(String tipoOperacion){
+        String sqlIdOperacion = "SELECT ID FROM OPERACION WHERE TIPOOPERACION = ?";
+        int idEncontrado = 0;
+        try{
+            PreparedStatement obtenerId = conexion.prepareStatement(sqlIdOperacion);
+            obtenerId.setString(1,tipoOperacion);
+            ResultSet tupleId = obtenerId.executeQuery();
+
+            while(tupleId.next()){
+                idEncontrado = Integer.parseInt(tupleId.getString("ID"));
+            }
+            obtenerId.close();
+            tupleId.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return idEncontrado;
+    }
+
     public void  guardarParametrosConfiguracion(BigDecimal comisionCuentaAhorros,BigDecimal comisionCuentaCorriente,BigDecimal interesesCuentaAhorros,BigDecimal interesesCuentaCorriente,int cantOperacionesExentas){
         String sqlConfiguracion = "";
 
@@ -389,6 +408,25 @@ public class GestorBD implements InterfazGestores {
 
 
 
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
+
+        int idOperacion = obtenerIdOperacion(tipoOperacion.toString());
+        String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";
+
+        try{
+            PreparedStatement ejecutarMovimiento = conexion.prepareStatement(agregarMovimiento);
+            ejecutarMovimiento.setInt(1,idOperacion);
+            ejecutarMovimiento.setDate(2,fechaTransaccion);
+            ejecutarMovimiento.setBigDecimal(3,monto);
+            ejecutarMovimiento.setString(4,(esExento ? "SI" : "NO"));
+            ejecutarMovimiento.setInt(5,cuenta.getNumeroCuenta());
+
+            ejecutarMovimiento.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }

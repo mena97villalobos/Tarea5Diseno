@@ -58,7 +58,10 @@ public class Cliente {
         cuenta.agregarMovimientos(mov);
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO,new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
             Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
+
         }
     }
 

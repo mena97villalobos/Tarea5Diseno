@@ -3,6 +3,7 @@ package Controller;
 import Model.Cliente;
 import Model.EntidadFinanciera;
 import Model.Singleton;
+import Model.ThreadSimulador;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +13,10 @@ import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ControllerSimulador implements Initializable {
@@ -71,7 +76,7 @@ public class ControllerSimulador implements Initializable {
     @FXML
     public Button guardarVariables;
 
-   // boolean operacionesExentas [] = {retiros.isSelected(),deposito.isSelected(),comprar.isSelected(), cajeros.isSelected()};//Pa mandar al hilo
+    // boolean operacionesExentas [] = {retiros.isSelected(),deposito.isSelected(),comprar.isSelected(), cajeros.isSelected()};//Pa mandar al hilo
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -88,21 +93,39 @@ public class ControllerSimulador implements Initializable {
             EntidadFinanciera.setTasaInteresCorriente(interesesCuentaCorriente);
             EntidadFinanciera.setCantOperacionesExentas(cantOperacionesExentas);
 
-            Singleton.getInstance().getGestor().guardarParametrosConfiguracion(comisionCuentaAhorros,comisionCuentaCorriente,interesesCuentaAhorros,interesesCuentaCorriente,cantOperacionesExentas);
+            Singleton.getInstance().getGestor().guardarParametrosConfiguracion(comisionCuentaAhorros, comisionCuentaCorriente, interesesCuentaAhorros, interesesCuentaCorriente, cantOperacionesExentas);
 
             limpiarVariables();
         });
 
         clientesSimulacion.setOnAction(event -> {
-            String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0,clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
+            String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0, clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
             Cliente clienteEncontrado = Cliente.filtrarCliente(idCliente);
 
             cuentasCliente.setItems(FXCollections.observableArrayList(clienteEncontrado.getNumeroCuentas()));
 
         });
+
+        iniciarSimulacion.setOnAction(event -> {
+            boolean operacionesExentas[] = {retiros.isSelected(), deposito.isSelected(), comprar.isSelected(), cajeros.isSelected()};
+            String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0, clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
+            int numeroCuenta = Integer.parseInt(cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(0, cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-")));
+            String tipoCuenta = cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-"), cuentasCliente.getSelectionModel().getSelectedItem().toString().length());
+
+            Date fechaInicioSimulacion = new Date();
+            Date fechaFinSimulacion = new Date();
+            settearFechas(fechaInicioSimulacion, fechaFinSimulacion);
+
+            Cliente clienteSimular = Cliente.filtrarCliente(idCliente);
+
+            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, fechaInicioSimulacion, fechaFinSimulacion);
+
+            //ts.run();
+        });
+
     }
 
-    public void limpiarVariables(){
+    public void limpiarVariables() {
         comisionAhorros.clear();
         comisionCorriente.clear();
         interesesAhorros.clear();
@@ -110,7 +133,17 @@ public class ControllerSimulador implements Initializable {
         numOperacionesExentas.clear();
     }
 
-    public void datosDefecto(){
+    public void datosDefecto() {
         clientesSimulacion.setItems(FXCollections.observableArrayList(Cliente.getNombresClientes()));
+    }
+
+    public void settearFechas(Date inicio, Date fin) {
+        try {
+            inicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio.getValue().toString());
+            fin = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFin.getValue().toString());
+        } catch (ParseException p) {
+            p.printStackTrace();
+
+        }
     }
 }

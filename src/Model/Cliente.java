@@ -4,6 +4,7 @@ import Gestores.GestorBD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Cliente {
 
@@ -48,19 +49,19 @@ public class Cliente {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public void retiro(int numeroCuenta, BigDecimal monto){
+    public void retiro(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
 
     }
 
-    public void deposito(int numeroCuenta, BigDecimal monto){
+    public void deposito(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
 
     }
 
-    public void compra_comercio(int numeroCuenta, BigDecimal monto){
+    public void compra_comercio(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
 
     }
 
-    public void retiro_cajero(int numeroCuenta, BigDecimal monto){
+    public void retiro_cajero(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
 
     }
 

@@ -23,8 +23,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-//        ThreadSimulador ts = new ThreadSimulador();
-//        ts.run();
         launch(args);
     }
 }

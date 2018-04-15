@@ -13,6 +13,10 @@ import java.util.ArrayList;
 /**
  * Created by Javier on 2/19/2018.
  */
+//TODO No sabia donde ponerlo, maes para que puedan guardar tuanis las configuraciones, cambian el orden de la tabla configuracion con este orden: 1) comisionCuentaAhorro 2)comisionCuentaCorriente 3)tasaInteresAhorros 4)tasaInteresCorriente 5)cantOperacionesExentas
+//TODO Cambiar en la tabla MONEDA: Donde dice "tipoMoneda", cambiarlo por "tipo"
+//TODO Agregar un atributo al final de la tabla cuenta que se llame operacionesRealizadas
+
 public class GestorBD {
 
     private Connection conexion;
@@ -246,5 +250,22 @@ public class GestorBD {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public BigDecimal obtenerParametros(String parametroAEscoger){
+        String sqlParametro = "SELECT "+parametroAEscoger+" FROM CONFIGURACION";
+        BigDecimal parametro = new BigDecimal("1"); //Valor por defecto sino hubieran parametros en la base
+        try{
+            PreparedStatement ejecutarParametro = conexion.prepareStatement(sqlParametro);
+            ResultSet parametroObtenido = ejecutarParametro.executeQuery();
+
+            while(parametroObtenido.next()){
+                parametro = parametroObtenido.getBigDecimal(parametroAEscoger);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return  parametro;
     }
 }

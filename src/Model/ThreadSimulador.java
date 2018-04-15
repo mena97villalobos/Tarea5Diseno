@@ -4,55 +4,92 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadSimulador implements Runnable {
-    private Random ran = new Random();
-    private int cantMovimientos = ran.nextInt(41);
-    public Cliente cliente = null;
-    public int numeroCuenta;
+
+    private Random ran;
+    private int avanceFecha;
+    private int cantMovimientos;// = ran.nextInt(41);
+
+    private Cliente cliente;// = null;
+    private boolean listaOperacionesExentas [];
+    private int numeroCuenta;
+    private Date dateInicio;
+    private Date dateFin;
+
+    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio, Date fechaFin){
+        this.ran = new Random();
+        this.cantMovimientos = ran.nextInt(41);
+        this.avanceFecha = ran.nextInt();//TODO Hacer un calculo para ver de cuanto en cuanto lo voy aumentando
+        this.cliente = cliente; //TODO Hacer algo no se, para que la vara caiga a final o inicio de mes, sin romper la linealidad.
+        this.listaOperacionesExentas = operacionesExentas;
+        this.numeroCuenta = numeroCuenta;
+        this.dateInicio = fechaInicio;
+        this.dateFin = fechaFin;
+    }
 
     @Override
     public void run() {
         //Generar un fecha random para la transaccion
-        String fechaI = "January 2, 2010";
-        String fechaF = "January 2, 2020";
-        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-        Date dateI = null;
-        Date dateF = null;
+      /*  DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        Date dateInicio = null;
+        Date dateFin = null;
+
         try {
-            dateI = format.parse(fechaI);
-            dateF = format.parse(fechaF);
+            dateInicio = format.parse(this.fechaInicio);
+            dateFin = format.parse(this.fechaFin);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        while(cantMovimientos != 0){
-            int tipoOp = ran.nextInt(4);
-            BigDecimal montoTran = new BigDecimal(ran.nextInt(10000));
-            long bound = ThreadLocalRandom.current().nextLong(dateI.getTime(), dateF.getTime());
-            Date randomDate = new Date(bound);
-            switch (tipoOp){
-                case 1:
-                    System.out.println("Caso Retiro");
-                    cliente.retiro(numeroCuenta, montoTran);
-                    break;
-                case 2:
-                    System.out.println("Caso Deposito");
-                    cliente.deposito(numeroCuenta, montoTran);
-                    break;
-                case 3:
-                    System.out.println("Caso Compra Comercio");
-                    cliente.compra_comercio(numeroCuenta, montoTran);
-                    break;
-                case 4:
-                    System.out.println("Caso Retiro Cajero");
-                    cliente.retiro_cajero(numeroCuenta, montoTran);
-                    break;
+        }*/
+        while(this.cantMovimientos != 0){
+            int tipoOp = this.ran.nextInt(4);
+
+            if(this.dateInicio.after(this.dateFin))
+                break;
+            else {
+                BigDecimal montoTran = new BigDecimal(ran.nextInt(10000));
+                //  long bound = ThreadLocalRandom.current().nextLong(dateInicio.getTime(), dateFin.getTime());
+                //  Date randomDate = new Date(bound);
+
+                switch (tipoOp) {
+                    case 0:
+                        System.out.println("Caso Retiro");
+                        this.cliente.retiro(numeroCuenta, montoTran, dateInicio);
+                        break;
+                    case 1:
+                        System.out.println("Caso Deposito");
+                        this.cliente.deposito(numeroCuenta, montoTran, dateInicio);
+                        break;
+                    case 2:
+                        System.out.println("Caso Compra Comercio");
+                        this.cliente.compra_comercio(numeroCuenta, montoTran, dateInicio);
+                        break;
+                    case 3:
+                        System.out.println("Caso Retiro Cajero");
+                        this.cliente.retiro_cajero(numeroCuenta, montoTran, dateInicio);
+                        break;
+                }
+
+                dateInicio = aumentarFecha(dateInicio);
+                this.cantMovimientos--;
             }
-            cantMovimientos --;
         }
+    }
+
+    public Date aumentarFecha(Date fechaInicio){
+
+            Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(fechaInicio);
+            c.add(Calendar.DATE, this.avanceFecha);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return c.getTime();
     }
 }

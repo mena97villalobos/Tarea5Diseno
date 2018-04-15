@@ -1,9 +1,6 @@
 package Gestores;
 
-import Model.Cliente;
-import Model.CuentaAhorros;
-import Model.CuentaCorriente;
-import Model.Moneda;
+import Model.*;
 import javafx.scene.control.Alert;
 
 import java.math.BigDecimal;
@@ -49,5 +46,7 @@ public interface InterfazGestores {
     java.util.Date obtenerFechaSistema();
 
     int getLastValueMov();
+
+    ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta);
 
 }

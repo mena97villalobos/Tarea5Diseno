@@ -1,5 +1,7 @@
 package Model;
 
+import Gestores.Singleton;
+
 import java.math.BigDecimal;
 import java.util.Date;
 

@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Cliente;
 import Model.EntidadFinanciera;
-import Model.Singleton;
+import Gestores.Singleton;
 import Model.ThreadSimulador;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -13,14 +13,9 @@ import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ControllerSimulador implements Initializable {
-
 
     @FXML
     public ComboBox clientesSimulacion;

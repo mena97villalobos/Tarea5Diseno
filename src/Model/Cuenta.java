@@ -1,6 +1,6 @@
 package Model;
 
-import Gestores.GestorBD;
+import Gestores.Singleton;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

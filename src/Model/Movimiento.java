@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Movimiento {
-    private static int nextID = 1;
+    private static int nextID = obtenerUltimoIdMov();
     private int idOperacion;
     private Date fechaTransaccion;
     private BigDecimal monto;
@@ -20,7 +20,7 @@ public class Movimiento {
         this.fechaTransaccion = new Date();
     }
 
-    // Constructor para jalar datos de la Base
+    // Constructor para obtener datos de la Base
     public Movimiento(int idOperacion, Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion) {
         this.idOperacion = idOperacion;
         this.fechaTransaccion = fechaTransaccion;
@@ -67,5 +67,9 @@ public class Movimiento {
 
     public void setOperacion(Operacion operacion) {
         this.operacion = operacion;
+    }
+
+    private static int obtenerUltimoIdMov(){
+        return Singleton.getInstance().getGestor().getLastValueMov();
     }
 }

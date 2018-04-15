@@ -14,7 +14,7 @@ import java.util.Locale;
  * Created by Javier on 2/19/2018.
  */
 
-public class GestorBD {
+public class GestorBD implements InterfazGestores {
 
     private Connection conexion;
     private Statement estado;
@@ -308,6 +308,25 @@ public class GestorBD {
 
         return fechaSistemaReal;
     }
+
+    public int getLastValueMov(){
+        int nextId = 0;
+        String sqlUltimoValor = "SELECT MAX(id)+1 as id FROM MOVIMIENTO";
+
+        try{
+            PreparedStatement ejecutarUltimoValor = conexion.prepareStatement(sqlUltimoValor);
+            ResultSet siguienteId = ejecutarUltimoValor.executeQuery();
+            if (siguienteId.next()){
+                nextId = Integer.parseInt(siguienteId.getString("id"));
+            }
+            ejecutarUltimoValor.close();
+            siguienteId.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return nextId;
+    }
+
 
     public ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta){
         String sqlMovimientos = "SELECT ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";

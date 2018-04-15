@@ -74,8 +74,6 @@ public class Cliente {
     }
 
     private static int obtenerUltimoIdCliente(){
-
-
         return Singleton.getInstance().getGestor().getLastValueCliente();
     }
 

@@ -76,8 +76,6 @@ public class ControllerSimulador implements Initializable {
     @FXML
     public Button guardarVariables;
 
-    // boolean operacionesExentas [] = {retiros.isSelected(),deposito.isSelected(),comprar.isSelected(), cajeros.isSelected()};//Pa mandar al hilo
-
     public void initialize(URL location, ResourceBundle resources) {
 
         guardarVariables.setOnAction(event -> {

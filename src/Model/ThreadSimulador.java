@@ -21,7 +21,7 @@ public class ThreadSimulador implements Runnable {
     private int numeroCuenta;
     private Date dateInicio;
 
-    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio, Date fechaFin){
+    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio){
         this.ran = new Random();
         this.cantMovimientos = ran.nextInt(41);
         this.avanceFecha = ran.nextInt(3);

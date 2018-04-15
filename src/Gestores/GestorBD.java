@@ -1,9 +1,6 @@
 package Gestores;
 
-import Model.Cliente;
-import Model.CuentaAhorros;
-import Model.CuentaCorriente;
-import Model.Moneda;
+import Model.*;
 import javafx.scene.control.Alert;
 
 import java.math.BigDecimal;
@@ -310,5 +307,33 @@ public class GestorBD {
         }
 
         return fechaSistemaReal;
+    }
+
+    public ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta){
+        String sqlMovimientos = "SELECT ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
+        ArrayList<Movimiento> movimientos = new ArrayList<>();
+        try{
+            PreparedStatement ejecutarMovimientos = conexion.prepareStatement(sqlMovimientos);
+            ejecutarMovimientos.setInt(1,cuenta.getNumeroCuenta());
+
+            ResultSet movimientosObtenidos = ejecutarMovimientos.executeQuery();
+
+            while(movimientosObtenidos.next()){
+                int idMovimiento = Integer.parseInt(movimientosObtenidos.getString("ID"));
+                Date fechaTransaccion = movimientosObtenidos.getDate("FECHATRANSACCION");
+                BigDecimal monto = movimientosObtenidos.getBigDecimal("MONTO");
+                boolean cobroExento = (movimientosObtenidos.getString("COBROEXENTO").equals("SI"));
+                Operacion operacion = Operacion.valueOf(movimientosObtenidos.getString("TIPOOPERACION"));
+
+                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion));
+
+            }
+            ejecutarMovimientos.close();
+            movimientosObtenidos.close();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return movimientos;
     }
 }

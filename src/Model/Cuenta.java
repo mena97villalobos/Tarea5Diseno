@@ -16,7 +16,7 @@ public abstract class Cuenta {
     private BigDecimal saldo;
 
 
-    //Constructor para extraer de la base de datos
+
 
     public Cuenta(Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldo) {
         this.numeroCuenta = nextIdCuenta;
@@ -28,12 +28,14 @@ public abstract class Cuenta {
         this.saldo = saldo;
     }
 
+    //Constructor para extraer de la base de datos
     public Cuenta(int numeroCuenta, Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldo) {
         this.numeroCuenta = numeroCuenta;
         this.fechaApertura = fechaApertura;
         this.moneda = moneda;
         this.cliente = cliente;
         this.saldo = saldo;
+        this.movimientos = getMovimientos();
     }
 
     public void agregarMovimientos(Movimiento movimiento){
@@ -51,5 +53,11 @@ public abstract class Cuenta {
     }
     public int getNumeroCuenta() {
         return numeroCuenta;
+    }
+
+    public ArrayList<Movimiento> getMovimientos(){
+
+        ArrayList<Movimiento> movimientos = Singleton.getInstance().getGestor().getMovimientosCuenta(this);
+        return movimientos;
     }
 }

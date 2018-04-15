@@ -108,7 +108,7 @@ public class ControllerSimulador implements Initializable {
 
             Cliente clienteSimular = Cliente.filtrarCliente(idCliente);
 
-            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, Singleton.getInstance().getGestor().obtenerFechaSistema());
+            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, Singleton.getInstance().getGestor().obtenerFechaSistema(), tipoCuenta);
 
             //ts.run();
         });

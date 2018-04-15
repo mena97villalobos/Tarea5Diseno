@@ -20,8 +20,9 @@ public class ThreadSimulador implements Runnable {
     private boolean listaOperacionesExentas [];
     private int numeroCuenta;
     private Date dateInicio;
+    private String tipoCuenta;
 
-    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio){
+    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta, Date fechaInicio, String tipoCuenta){
         this.ran = new Random();
         this.cantMovimientos = ran.nextInt(41);
         this.avanceFecha = ran.nextInt(3);
@@ -29,6 +30,7 @@ public class ThreadSimulador implements Runnable {
         this.listaOperacionesExentas = operacionesExentas;
         this.numeroCuenta = numeroCuenta;
         this.dateInicio = fechaInicio;
+        this.tipoCuenta = tipoCuenta;
     }
 
     @Override
@@ -41,19 +43,19 @@ public class ThreadSimulador implements Runnable {
             switch (tipoOp) {
                 case 0:
                     System.out.println("Caso Retiro");
-                    this.cliente.retiro(numeroCuenta, montoTran, dateInicio);
+                    this.cliente.retiro(numeroCuenta, montoTran, dateInicio, tipoCuenta, listaOperacionesExentas[0]);
                     break;
                 case 1:
                     System.out.println("Caso Deposito");
-                    this.cliente.deposito(numeroCuenta, montoTran, dateInicio);
+                    this.cliente.deposito(numeroCuenta, montoTran, dateInicio, tipoCuenta);
                     break;
                 case 2:
                     System.out.println("Caso Compra Comercio");
-                    this.cliente.compra_comercio(numeroCuenta, montoTran, dateInicio);
+                    this.cliente.compra_comercio(numeroCuenta, montoTran, dateInicio, tipoCuenta);
                     break;
                 case 3:
                     System.out.println("Caso Retiro Cajero");
-                    this.cliente.retiro_cajero(numeroCuenta, montoTran, dateInicio);
+                    this.cliente.retiro_cajero(numeroCuenta, montoTran, dateInicio, tipoCuenta);
                     break;
             }
             dateInicio = aumentarFecha(dateInicio);

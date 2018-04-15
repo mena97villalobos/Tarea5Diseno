@@ -49,19 +49,38 @@ public class Cliente {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public void retiro(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
+    public void retiro(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
+        Movimiento mov = new Movimiento(1, fechaTransaccion, monto, esExento, Operacion.RETIRO);
+        Cuenta cuenta;
+        if (tipoCuenta == "Ahorros"){
+            for (int i = 0; i < cuentasAhorros.size(); i++){
+                cuenta = cuentasAhorros.get(i);
+                if (cuenta.getNumeroCuenta() == numeroCuenta){
+                    cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+                    cuenta.agregarMovimientos(mov);
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < cuentasCorriente.size(); i++){
+                cuenta = cuentasCorriente.get(i);
+                if (cuenta.getNumeroCuenta() == numeroCuenta){
+                    cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+                    cuenta.agregarMovimientos(mov);
+                }
+            }
+        }
+    }
+
+    public void deposito(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
 
     }
 
-    public void deposito(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
+    public void compra_comercio(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
 
     }
 
-    public void compra_comercio(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
-
-    }
-
-    public void retiro_cajero(int numeroCuenta, BigDecimal monto,Date fechaTransaccion){
+    public void retiro_cajero(int numeroCuenta, BigDecimal monto,Date fechaTransaccion, String tipoCuenta){
 
     }
 

@@ -52,26 +52,23 @@ public class Cliente {
     public void retiro(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
         Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.RETIRO);
         Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
-
         cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
-
         cuenta.agregarMovimientos(mov);
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
-
-            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO,new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
             Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
-
         }
     }
 
     public void deposito(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
         Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.DEPOSITO);
         Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
-
         cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
         cuenta.agregarMovimientos(mov);
         cuenta.setSaldo(cuenta.getSaldo().add(monto));
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.DEPOSITO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+        Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
     }
 
     public void compra_comercio(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
@@ -82,6 +79,8 @@ public class Cliente {
         cuenta.agregarMovimientos(mov);
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COMPRA_COMERCIO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+            Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
         }
     }
 
@@ -93,6 +92,8 @@ public class Cliente {
         cuenta.agregarMovimientos(mov);
         if (cuenta.getSaldo().compareTo(monto) >= 0){
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO_CAJERO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+            Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
         }
     }
 

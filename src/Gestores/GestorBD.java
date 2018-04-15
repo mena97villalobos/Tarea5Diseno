@@ -346,7 +346,6 @@ public class GestorBD implements InterfazGestores {
         return nextId;
     }
 
-
     public ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta){
         String sqlMovimientos = "SELECT MOVIMIENTO.ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
         ArrayList<Movimiento> movimientos = new ArrayList<>();

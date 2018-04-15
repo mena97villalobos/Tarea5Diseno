@@ -10,7 +10,6 @@ public class CuentaCorriente extends Cuenta {
     public CuentaCorriente(Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldoApertura) {
         super(fechaApertura, moneda, cliente,saldoApertura);
         this.opRealizadas = 0;
-
         cliente.agregarCuentaCorriente(this);
     }
 

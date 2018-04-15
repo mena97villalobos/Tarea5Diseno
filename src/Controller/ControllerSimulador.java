@@ -1,13 +1,15 @@
 package Controller;
 
+import Model.Cliente;
+import Model.EntidadFinanciera;
 import Model.Singleton;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,16 +60,18 @@ public class ControllerSimulador implements Initializable {
     public CheckBox retiros;
 
     @FXML
-    public Checkbox deposito;
+    public CheckBox deposito;
 
     @FXML
-    public Checkbox comprar;
+    public CheckBox comprar;
 
     @FXML
-    public Checkbox cajeros;
+    public CheckBox cajeros;
 
     @FXML
     public Button guardarVariables;
+
+   // boolean operacionesExentas [] = {retiros.isSelected(),deposito.isSelected(),comprar.isSelected(), cajeros.isSelected()};//Pa mandar al hilo
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -78,8 +82,35 @@ public class ControllerSimulador implements Initializable {
             BigDecimal interesesCuentaCorriente = new BigDecimal(interesesCorriente.getText());
             int cantOperacionesExentas = Integer.parseInt(numOperacionesExentas.getText());
 
+            EntidadFinanciera.setComisionCuentaAhorro(comisionCuentaAhorros);
+            EntidadFinanciera.setComisionCuentaCorriente(comisionCuentaCorriente);
+            EntidadFinanciera.setTasaInteresAhorros(interesesCuentaAhorros);
+            EntidadFinanciera.setTasaInteresCorriente(interesesCuentaCorriente);
+            EntidadFinanciera.setCantOperacionesExentas(cantOperacionesExentas);
+
             Singleton.getInstance().getGestor().guardarParametrosConfiguracion(comisionCuentaAhorros,comisionCuentaCorriente,interesesCuentaAhorros,interesesCuentaCorriente,cantOperacionesExentas);
+
+            limpiarVariables();
         });
 
+        clientesSimulacion.setOnAction(event -> {
+            String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0,clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
+            Cliente clienteEncontrado = Cliente.filtrarCliente(idCliente);
+
+            cuentasCliente.setItems(FXCollections.observableArrayList(clienteEncontrado.getNumeroCuentas()));
+
+        });
+    }
+
+    public void limpiarVariables(){
+        comisionAhorros.clear();
+        comisionCorriente.clear();
+        interesesAhorros.clear();
+        interesesCorriente.clear();
+        numOperacionesExentas.clear();
+    }
+
+    public void datosDefecto(){
+        clientesSimulacion.setItems(FXCollections.observableArrayList(Cliente.getNombresClientes()));
     }
 }

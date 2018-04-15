@@ -11,7 +11,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/simulador.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getResource("../View/simulador.fxml").openStream());
+        ControllerSimulador controladorSimulador = loader.getController();
+        controladorSimulador.datosDefecto();
+
         primaryStage.setTitle("Simulador");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
@@ -19,7 +23,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        ThreadSimulador ts = new ThreadSimulador();
+//        ThreadSimulador ts = new ThreadSimulador();
 //        ts.run();
         launch(args);
     }

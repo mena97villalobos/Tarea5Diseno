@@ -8,12 +8,36 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//TODO No sabia donde ponerlo, maes para que puedan guardar tuanis las configuraciones, cambian el orden de la tabla configuracion con este orden: 1) comisionCuentaAhorro 2)comisionCuentaCorriente 3)tasaInteresAhorros 4)tasaInteresCorriente 5)cantOperacionesExentas
+//TODO Cambiar en la tabla MONEDA: Donde dice "tipoMoneda", cambiarlo por "tipo"
+//TODO Agregar un atributo al final de la tabla cuenta que se llame operacionesRealizadas
+
 public class EntidadFinanciera {
     public static BigDecimal comisionCuentaAhorro;
     public static BigDecimal comisionCuentaCorriente;
     public static int cantOperacionesExentas;
     public static BigDecimal tasaInteresAhorros;
     public static BigDecimal tasaInteresCorriente;
+
+    public static void setComisionCuentaAhorro(BigDecimal comisionCuentaAhorro) {
+        EntidadFinanciera.comisionCuentaAhorro = comisionCuentaAhorro;
+    }
+
+    public static void setComisionCuentaCorriente(BigDecimal comisionCuentaCorriente) {
+        EntidadFinanciera.comisionCuentaCorriente = comisionCuentaCorriente;
+    }
+
+    public static void setCantOperacionesExentas(int cantOperacionesExentas) {
+        EntidadFinanciera.cantOperacionesExentas = cantOperacionesExentas;
+    }
+
+    public static void setTasaInteresAhorros(BigDecimal tasaInteresAhorros) {
+        EntidadFinanciera.tasaInteresAhorros = tasaInteresAhorros;
+    }
+
+    public static void setTasaInteresCorriente(BigDecimal tasaInteresCorriente) {
+        EntidadFinanciera.tasaInteresCorriente = tasaInteresCorriente;
+    }
 
     public void crearCliente(String nombreCompleto){
 
@@ -24,10 +48,9 @@ public class EntidadFinanciera {
     }
 
     public void crearCuenta(String identificacionCliente, BigDecimal saldoApertura,Moneda tipoMoneda,String tipoCuenta){
-        GestorBD gestorBase = new GestorBD();
 
         Date fechaSistema = obtenerFechaSistema();
-        Cliente clienteEscogido = filtrarCliente(identificacionCliente);
+        Cliente clienteEscogido = Cliente.filtrarCliente(identificacionCliente);
 
         if(tipoCuenta.equals("Corriente"))
             new CuentaCorriente(fechaSistema,tipoMoneda,clienteEscogido,saldoApertura);
@@ -36,14 +59,6 @@ public class EntidadFinanciera {
 
         Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()),identificacionCliente,saldoApertura,tipoMoneda,tipoCuenta);
     }
-
-    private Cliente filtrarCliente(String idCliente){
-        for(int i =0; i< Cliente.getClientes().size();i++){
-            if(Cliente.getClientes().get(i).getId() == Integer.parseInt(idCliente))
-                return Cliente.getClientes().get(i);
-        }
-        return null;
-    } //TODO Creo que seria mejor que estuviera en la clase ClIENTE como un metodo de clase.
 
     public java.util.Date obtenerFechaSistema(){
         java.util.Date fechaSistemaReal = null;

@@ -15,6 +15,12 @@ public class CuentaCorriente extends Cuenta {
         cliente.agregarCuentaCorriente(this);
     }
 
+    //Constructor para extraer de la base
+    public CuentaCorriente(int numeroCuenta,Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldoApertura, int operacionesRealizadas) {
+        super(numeroCuenta,fechaApertura, moneda, cliente,saldoApertura);
+        this.opRealizadas = operacionesRealizadas;
+    }
+
     @Override
     public void cobrarComision() {
 

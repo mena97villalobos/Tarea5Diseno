@@ -15,6 +15,11 @@ public class CuentaAhorros extends Cuenta {
         cliente.agregarCuentaAhorros(this);
     }
 
+    public CuentaAhorros(int numeroCuenta,Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldoActual) {
+        super(numeroCuenta,fechaApertura, moneda, cliente,saldoActual);
+
+    }
+
     @Override
     public void cobrarComision() {
 

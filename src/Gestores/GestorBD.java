@@ -116,7 +116,7 @@ public class GestorBD {
     }
 
     public void crearCuenta(Date fechaSistema, String clienteIdentificacion, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta){
-        String sqlCuenta = "INSERT INTO CUENTA(fechaApertura,saldo,tipoCuenta,tipoMoneda,idCliente) VALUES(?,?,?,?,?)";
+        String sqlCuenta = "INSERT INTO CUENTA(fechaApertura,saldo,tipoCuenta,tipoMoneda,idCliente,operacionesRealizadas) VALUES(?,?,?,?,?,?)";
         int idMoneda = obtenerIdTipoMoneda(tipoMoneda.toString());
         try{
             PreparedStatement insercionCuenta = conexion.prepareStatement(sqlCuenta);
@@ -127,6 +127,11 @@ public class GestorBD {
             insercionCuenta.setInt(4,idMoneda);
             insercionCuenta.setInt(5,Integer.parseInt(clienteIdentificacion));
 
+            if(tipoCuenta.equals("Ahorros"))
+                insercionCuenta.setNull(6,Types.INTEGER);
+            else
+                insercionCuenta.setInt(6,0);
+
             insercionCuenta.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
@@ -135,6 +140,26 @@ public class GestorBD {
 
     public ArrayList<CuentaAhorros> getCuentasDeAhorro(Cliente clienteBuscar){
         ArrayList<CuentaAhorros> cuentaAhorros = new ArrayList<>();
+        String sqlAhorros = "SELECT NUMEROCUENTA,FECHAAPERTURA,SALDO,MONEDA.TIPO FROM CUENTA,MONEDA WHERE CUENTA.TIPOMONEDA = MONEDA.ID AND CUENTA.IDCLIENTE = ? AND TIPOCUENTA = 'Ahorros' ";
+
+        try{
+            PreparedStatement ejecutarCuentaAhorros = conexion.prepareStatement(sqlAhorros);
+            ejecutarCuentaAhorros.setInt(1,clienteBuscar.getId());
+
+            ResultSet cuentasAhorroObtenidas = ejecutarCuentaAhorros.executeQuery();
+
+            while(cuentasAhorroObtenidas.next()){
+                int numeroCuenta = Integer.parseInt(cuentasAhorroObtenidas.getString("NUMEROCUENTA"));
+                Date fechaApertura = cuentasAhorroObtenidas.getDate("FECHAAPERTURA");
+                Moneda tipoMoneda = Moneda.valueOf(cuentasAhorroObtenidas.getString("TIPO"));
+                BigDecimal saldoActual = cuentasAhorroObtenidas.getBigDecimal("SALDO");
+
+                cuentaAhorros.add(new CuentaAhorros(numeroCuenta,fechaApertura,tipoMoneda,clienteBuscar,saldoActual));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
         return cuentaAhorros;
     }
@@ -142,11 +167,33 @@ public class GestorBD {
     public ArrayList<CuentaCorriente> getCuentasCorriente(Cliente clienteBuscar){
         ArrayList<CuentaCorriente> cuentaCorrientes = new ArrayList<>();
 
+        String sqlCorriente = "SELECT NUMEROCUENTA,FECHAAPERTURA,SALDO,OPERACIONESREALIZADAS,MONEDA.TIPO FROM CUENTA,MONEDA WHERE CUENTA.TIPOMONEDA = MONEDA.ID AND CUENTA.IDCLIENTE = ? AND TIPOCUENTA = 'Corriente' ";
+
+        try{
+            PreparedStatement ejecutarCuentaCorriente = conexion.prepareStatement(sqlCorriente);
+            ejecutarCuentaCorriente.setInt(1,clienteBuscar.getId());
+
+            ResultSet cuentasCorrienteObtenidas = ejecutarCuentaCorriente.executeQuery();
+
+            while(cuentasCorrienteObtenidas.next()){
+                int numeroCuenta = Integer.parseInt(cuentasCorrienteObtenidas.getString("NUMEROCUENTA"));
+                Date fechaApertura = cuentasCorrienteObtenidas.getDate("FECHAAPERTURA");
+                Moneda tipoMoneda = Moneda.valueOf(cuentasCorrienteObtenidas.getString("TIPO"));
+                BigDecimal saldoActual = cuentasCorrienteObtenidas.getBigDecimal("SALDO");
+                int operacionesRealizadas = Integer.parseInt(cuentasCorrienteObtenidas.getString("OPERACIONESREALIZADAS"));
+
+                cuentaCorrientes.add(new CuentaCorriente(numeroCuenta,fechaApertura,tipoMoneda,clienteBuscar,saldoActual,operacionesRealizadas));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return cuentaCorrientes;
     }
 
     public int obtenerIdTipoMoneda(String tipoMoneda){
-        String sqlIdMoneda = "SELECT ID FROM MONEDA WHERE tipoMoneda = ?";
+        String sqlIdMoneda = "SELECT ID FROM MONEDA WHERE tipo = ?";
         int idEncontrado = 0;
         try{
             PreparedStatement obtenerId = conexion.prepareStatement(sqlIdMoneda);

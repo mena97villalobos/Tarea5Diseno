@@ -27,6 +27,14 @@ public abstract class Cuenta {
         this.saldo = saldo;
     }
 
+    public Cuenta(int numeroCuenta, Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldo) {
+        this.numeroCuenta = numeroCuenta;
+        this.fechaApertura = fechaApertura;
+        this.moneda = moneda;
+        this.cliente = cliente;
+        this.saldo = saldo;
+    }
+
     public abstract void cobrarComision();
 
     private void pagoIntereses(){
@@ -35,5 +43,8 @@ public abstract class Cuenta {
 
     private void obtenerMovimientos(Date fechaInicio, Date fechaFin){
 
+    }
+    public int getNumeroCuenta() {
+        return numeroCuenta;
     }
 }

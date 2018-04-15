@@ -60,7 +60,7 @@
         </content>
       </TitledPane>
       <ComboBox fx:id="clientesSimulacion" layoutX="14.0" layoutY="44.0" prefWidth="186.0" promptText="Seleccionar Cliente" />
-      <ComboBox fx:id="cuentasCliente" disable="true" layoutX="14.0" layoutY="90.0" prefWidth="186.0" promptText="Seleccionar Cuenta" />
+      <ComboBox fx:id="cuentasCliente" layoutX="14.0" layoutY="90.0" prefWidth="186.0" promptText="Seleccionar Cuenta" />
       <Button fx:id="detenerSimulacion" layoutX="32.0" layoutY="182.0" mnemonicParsing="false" text="Detener Simulación" />
    </children>
 </Pane>

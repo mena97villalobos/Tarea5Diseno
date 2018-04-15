@@ -13,7 +13,7 @@ public class Cliente {
     private int id;
     private String nombreCompleto;
 
-    private ArrayList<CuentaAhorros> cuentasAhorros;// Una de ahorros y una corriente TODO KJDFNGJKDFNGJK
+    private ArrayList<CuentaAhorros> cuentasAhorros;
     private ArrayList<CuentaCorriente> cuentasCorriente;
 
     public Cliente(String nombreCompleto){
@@ -89,7 +89,6 @@ public class Cliente {
     public ArrayList<CuentaAhorros> getCuentasAhorros(){
 
         ArrayList<CuentaAhorros> cuentasAhorroCliente = Singleton.getInstance().getGestor().getCuentasDeAhorro(this);
-
         return cuentasAhorroCliente;
     }
 
@@ -108,4 +107,25 @@ public class Cliente {
         }
         return nombreClientes;
     }
+
+    public static Cliente filtrarCliente(String idCliente){
+        for(int i =0; i< clientes.size();i++){
+            if(clientes.get(i).getId() == Integer.parseInt(idCliente))
+                return clientes.get(i);
+        }
+        return null;
+    }
+
+    public ArrayList<String> getNumeroCuentas(){
+        ArrayList<String> numeroCuentas = new ArrayList<>();
+
+        for(int i =0;i< cuentasAhorros.size();i++){
+            numeroCuentas.add(cuentasAhorros.get(i).getNumeroCuenta()+"-Ahorros");
+        }
+        for(int i =0;i< cuentasCorriente.size();i++){
+            numeroCuentas.add(cuentasCorriente.get(i).getNumeroCuenta()+"-Corriente");
+        }
+        return numeroCuentas;
+    }
+
 }

@@ -8,14 +8,14 @@ import javafx.scene.control.Alert;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Javier on 2/19/2018.
  */
-//TODO No sabia donde ponerlo, maes para que puedan guardar tuanis las configuraciones, cambian el orden de la tabla configuracion con este orden: 1) comisionCuentaAhorro 2)comisionCuentaCorriente 3)tasaInteresAhorros 4)tasaInteresCorriente 5)cantOperacionesExentas
-//TODO Cambiar en la tabla MONEDA: Donde dice "tipoMoneda", cambiarlo por "tipo"
-//TODO Agregar un atributo al final de la tabla cuenta que se llame operacionesRealizadas
 
 public class GestorBD {
 
@@ -84,6 +84,10 @@ public class GestorBD {
 
                 clientesExtraidos.add(new Cliente(idCliente,nombreCliente));
             }
+
+            obtenerClientes.close();
+            clientesObtenidos.close();
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -101,6 +105,9 @@ public class GestorBD {
             while(siguienteId.next()){
                 nextId = Integer.parseInt(siguienteId.getString("ULTIMOID"));
             }
+
+            ejecutarUltimoValor.close();
+            siguienteId.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -113,6 +120,8 @@ public class GestorBD {
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO CLIENTE (nombreApellidos) VALUES (?)");
             statement.setString(1, nombreCompleto);
             statement.executeUpdate();
+
+            statement.close();
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -137,6 +146,10 @@ public class GestorBD {
                 insercionCuenta.setInt(6,0);
 
             insercionCuenta.executeUpdate();
+
+            insercionCuenta.close();
+
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -161,6 +174,8 @@ public class GestorBD {
                 cuentaAhorros.add(new CuentaAhorros(numeroCuenta,fechaApertura,tipoMoneda,clienteBuscar,saldoActual));
             }
 
+            ejecutarCuentaAhorros.close();
+            cuentasAhorroObtenidas.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -189,6 +204,8 @@ public class GestorBD {
                 cuentaCorrientes.add(new CuentaCorriente(numeroCuenta,fechaApertura,tipoMoneda,clienteBuscar,saldoActual,operacionesRealizadas));
             }
 
+            ejecutarCuentaCorriente.close();
+            cuentasCorrienteObtenidas.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -207,7 +224,8 @@ public class GestorBD {
             while(tupleId.next()){
                 idEncontrado = Integer.parseInt(tupleId.getString("ID"));
             }
-
+            obtenerId.close();
+            tupleId.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -231,6 +249,8 @@ public class GestorBD {
             cambiarParametros.setInt(5,cantOperacionesExentas);
 
             cambiarParametros.executeUpdate();
+
+            cambiarParametros.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -244,8 +264,13 @@ public class GestorBD {
             ResultSet parametrosObtenidos = verificarParametros.executeQuery();
 
 
-            if(parametrosObtenidos.next())
+            if(parametrosObtenidos.next()) {
+                verificarParametros.close();
+                parametrosObtenidos.close();
                 return true;
+            }
+            verificarParametros.close();
+            parametrosObtenidos.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -263,9 +288,27 @@ public class GestorBD {
                 parametro = parametroObtenido.getBigDecimal(parametroAEscoger);
             }
 
+            parametroObtenido.close();
+            ejecutarParametro.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
+
         return  parametro;
+    }
+
+    public java.util.Date obtenerFechaSistema() {
+        java.util.Date fechaSistemaReal = null;
+        try {
+            DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+            java.util.Date objetoDate = new java.util.Date();
+            String fechaSistema = formatoFecha.format(objetoDate);
+            fechaSistemaReal = formatoFecha.parse(fechaSistema);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fechaSistemaReal;
     }
 }

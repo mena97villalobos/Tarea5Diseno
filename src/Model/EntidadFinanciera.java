@@ -47,7 +47,7 @@ public class EntidadFinanciera {
 
     public void crearCuenta(String identificacionCliente, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta) {
 
-        Date fechaSistema = obtenerFechaSistema();
+        Date fechaSistema = Singleton.getInstance().getGestor().obtenerFechaSistema();
         Cliente clienteEscogido = Cliente.filtrarCliente(identificacionCliente);
 
         if (tipoCuenta.equals("Corriente"))
@@ -56,21 +56,6 @@ public class EntidadFinanciera {
             new CuentaAhorros(fechaSistema, tipoMoneda, clienteEscogido, saldoApertura);
 
         Singleton.getInstance().getGestor().crearCuenta(new java.sql.Date(fechaSistema.getTime()), identificacionCliente, saldoApertura, tipoMoneda, tipoCuenta);
-    }
-
-    public java.util.Date obtenerFechaSistema() {
-        java.util.Date fechaSistemaReal = null;
-        try {
-            DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-            java.util.Date objetoDate = new java.util.Date();
-            String fechaSistema = formatoFecha.format(objetoDate);
-            fechaSistemaReal = formatoFecha.parse(fechaSistema);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return fechaSistemaReal;
     }
 
     private static BigDecimal getConfiguracion(int numero) {

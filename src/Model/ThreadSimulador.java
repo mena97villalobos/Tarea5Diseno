@@ -20,9 +20,9 @@ public class ThreadSimulador implements Runnable {
     private boolean listaOperacionesExentas [];
     private int numeroCuenta;
     private Date dateInicio;
-    private Date dateFin;
 
-    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio, Date fechaFin){
+
+    public ThreadSimulador(Cliente cliente, boolean operacionesExentas [], int numeroCuenta,Date fechaInicio){
         this.ran = new Random();
         this.cantMovimientos = ran.nextInt(41);
         this.avanceFecha = ran.nextInt();//TODO Hacer un calculo para ver de cuanto en cuanto lo voy aumentando
@@ -30,7 +30,6 @@ public class ThreadSimulador implements Runnable {
         this.listaOperacionesExentas = operacionesExentas;
         this.numeroCuenta = numeroCuenta;
         this.dateInicio = fechaInicio;
-        this.dateFin = fechaFin;
     }
 
     @Override
@@ -49,9 +48,6 @@ public class ThreadSimulador implements Runnable {
         while(this.cantMovimientos != 0){
             int tipoOp = this.ran.nextInt(4);
 
-            if(this.dateInicio.after(this.dateFin))
-                break;
-            else {
                 BigDecimal montoTran = new BigDecimal(ran.nextInt(10000));
                 //  long bound = ThreadLocalRandom.current().nextLong(dateInicio.getTime(), dateFin.getTime());
                 //  Date randomDate = new Date(bound);
@@ -79,7 +75,6 @@ public class ThreadSimulador implements Runnable {
                 this.cantMovimientos--;
             }
         }
-    }
 
     public Date aumentarFecha(Date fechaInicio){
 

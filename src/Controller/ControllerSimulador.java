@@ -112,16 +112,15 @@ public class ControllerSimulador implements Initializable {
             int numeroCuenta = Integer.parseInt(cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(0, cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-")));
             String tipoCuenta = cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-"), cuentasCliente.getSelectionModel().getSelectedItem().toString().length());
 
-            Date fechaInicioSimulacion = new Date();
-            Date fechaFinSimulacion = new Date();
-            settearFechas(fechaInicioSimulacion, fechaFinSimulacion);
 
             Cliente clienteSimular = Cliente.filtrarCliente(idCliente);
 
-            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, fechaInicioSimulacion, fechaFinSimulacion);
+            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, Singleton.getInstance().getGestor().obtenerFechaSistema());
 
             //ts.run();
         });
+
+
 
     }
 
@@ -137,13 +136,4 @@ public class ControllerSimulador implements Initializable {
         clientesSimulacion.setItems(FXCollections.observableArrayList(Cliente.getNombresClientes()));
     }
 
-    public void settearFechas(Date inicio, Date fin) {
-        try {
-            inicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicio.getValue().toString());
-            fin = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFin.getValue().toString());
-        } catch (ParseException p) {
-            p.printStackTrace();
-
-        }
-    }
 }

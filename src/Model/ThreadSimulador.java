@@ -59,11 +59,11 @@ public class ThreadSimulador implements Runnable {
                         BigDecimal saldoActual = cuenta.getSaldo();
                         BigDecimal interesesAcumulados;
                         if (tipoCuenta.equals("Ahorros")) {
-                            System.out.println("Calcular intereses cuenta ahooros");
                             interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresAhorros);
+                            cuenta.cobrarComision(dateActual);
                         } else {
-                            System.out.println("Calcular intereses cuenta corriente");
                             interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresCorriente);
+                            cuenta.cobrarComision(dateActual);
                         }
                         cuenta.pagoIntereses(interesesAcumulados, dateActual);
                         operacionRealizada += "Aplicacion de intereses a por: " + interesesAcumulados.toString() +

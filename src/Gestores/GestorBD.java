@@ -176,7 +176,6 @@ public class GestorBD implements InterfazGestores {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
         return cuentaAhorros;
     }
 
@@ -432,6 +431,36 @@ public class GestorBD implements InterfazGestores {
             ejecutarMovimiento.executeUpdate();
 
             ejecutarMovimiento.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public int getOpRealizadas(int idCuenta){
+        int realizadas = 0;
+        String sqlUltimoValor = "SELECT C.operacionesRealizadas AS op FROM CUENTA C WHERE C.numeroCuenta = ?;";
+        try{
+            PreparedStatement ejecutarUltimoValor = conexion.prepareStatement(sqlUltimoValor);
+            ejecutarUltimoValor.setInt(1, idCuenta);
+            ResultSet rs = ejecutarUltimoValor.executeQuery();
+            while (rs.next()){
+                realizadas = Integer.parseInt(rs.getString("op"));
+            }
+            ejecutarUltimoValor.close();
+            rs.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return realizadas;
+    }
+
+    public void setMovimientosHechos(int idCuenta){
+        String sqlModificar = "UPDATE CUENTA SET OPERACIONESREALIZADAS = 0 WHERE NUMEROCUENTA = ?";
+        try{
+            PreparedStatement ejecutarModificar = conexion.prepareStatement(sqlModificar);
+            ejecutarModificar.setInt(1, idCuenta);
+            ejecutarModificar.executeUpdate();
+            ejecutarModificar.close();
         }catch (SQLException e){
             e.printStackTrace();
         }

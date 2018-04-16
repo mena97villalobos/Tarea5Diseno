@@ -1,6 +1,7 @@
 package Model;
 
 import Gestores.GestorBD;
+import Gestores.Singleton;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,8 +22,14 @@ public class CuentaAhorros extends Cuenta {
     }
 
     @Override
-    public void cobrarComision() {
-
+    public void cobrarComision(Date fechaTran) {
+        BigDecimal saldo = super.getSaldo();
+        saldo = saldo.subtract(EntidadFinanciera.comisionCuentaAhorro);
+        super.setSaldo(saldo);
+        Movimiento mov = new Movimiento(fechaTran, EntidadFinanciera.comisionCuentaAhorro, false, Operacion.COBRO_COMISION);
+        agregarMovimientos(mov);
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTran.getTime()), EntidadFinanciera.comisionCuentaAhorro,false,this);
+        Singleton.getInstance().getGestor().modificarCuenta(this, "Ahorros", false);
     }
 
 }

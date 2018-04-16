@@ -53,4 +53,8 @@ public interface InterfazGestores {
 
     void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta);
 
+    int getOpRealizadas(int idCuenta);
+
+    void setMovimientosHechos(int idCuenta);
+
 }

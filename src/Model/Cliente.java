@@ -59,8 +59,9 @@ public class Cliente {
             cuenta.agregarMovimientos(mov);
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
 
-            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO,new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
             Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO,new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+
 
         }
     }
@@ -74,8 +75,9 @@ public class Cliente {
         cuenta.agregarMovimientos(mov);
         cuenta.setSaldo(cuenta.getSaldo().add(monto));
 
-        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.DEPOSITO, new java.sql.Date(fechaTransaccion.getTime()), monto, esExento, cuenta);
         Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.DEPOSITO, new java.sql.Date(fechaTransaccion.getTime()), monto, esExento, cuenta);
+
     }
 
     public void compra_comercio(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
@@ -88,8 +90,9 @@ public class Cliente {
             cuenta.agregarMovimientos(mov);
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
 
-            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COMPRA_COMERCIO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
             Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COMPRA_COMERCIO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+
         }
     }
 
@@ -103,8 +106,9 @@ public class Cliente {
             cuenta.agregarMovimientos(mov);
             cuenta.setSaldo(cuenta.getSaldo().subtract(monto));
 
-            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO_CAJERO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
             Singleton.getInstance().getGestor().modificarCuenta(cuenta,tipoCuenta,esExento);
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.RETIRO_CAJERO, new java.sql.Date(fechaTransaccion.getTime()),monto,esExento,cuenta);
+
         }
     }
 

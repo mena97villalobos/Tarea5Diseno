@@ -9,8 +9,8 @@ public class EntidadFinanciera {
 
     public static BigDecimal comisionCuentaAhorro = getConfiguracion(1);
     public static BigDecimal comisionCuentaCorriente = getConfiguracion(2);
-    public static BigDecimal tasaInteresAhorros = getConfiguracion(3);
-    public static BigDecimal tasaInteresCorriente = getConfiguracion(4);
+    public static BigDecimal tasaInteresAhorros = getConfiguracion(3).divide(new BigDecimal("100"));
+    public static BigDecimal tasaInteresCorriente = getConfiguracion(4).divide(new BigDecimal("100"));
     public static int cantOperacionesExentas = getConfiguracion(5).intValueExact();
 
 

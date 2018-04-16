@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public interface InterfazGestores {
     void establecerConexionSuperUsuario();
@@ -29,7 +30,7 @@ public interface InterfazGestores {
 
     void insertarCliente(String nombreCompleto);
 
-    void crearCuenta(Date fechaSistema, String clienteIdentificacion, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta);
+    void crearCuenta(java.sql.Date fechaSistema, String clienteIdentificacion, BigDecimal saldoApertura, Moneda tipoMoneda, String tipoCuenta);
 
     ArrayList<CuentaAhorros> getCuentasDeAhorro(Cliente clienteBuscar);
 
@@ -51,7 +52,9 @@ public interface InterfazGestores {
 
     void modificarCuenta(Cuenta cuenta, String tipoCuenta, boolean esExento);
 
-    void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta);
+    void agregarMovimiento(Operacion tipoOperacion, java.sql.Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta);
+
+    ArrayList<Movimiento> verEstadoCuenta(int idCuenta, java.util.Date fechaInicio, java.util.Date fechaFin);
 
     int getOpRealizadas(int idCuenta);
 

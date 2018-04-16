@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="286.0" prefWidth="722.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerAdministrador">
+<AnchorPane prefHeight="286.0" prefWidth="722.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerAdministrador">
    <children>
       <TextField fx:id="nombreCliente" layoutX="101.0" layoutY="99.0" prefHeight="25.0" prefWidth="248.0" />
       <Label layoutX="38.0" layoutY="103.0" text="Nombre:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Button fx:id="agregarCliente" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" text="Agregar">
+      <Button fx:id="agregarCliente" layoutX="164.0" layoutY="165.0" mnemonicParsing="false" text="Agregar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

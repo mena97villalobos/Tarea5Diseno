@@ -3,6 +3,7 @@ package Controller;
 import Model.Cliente;
 import Model.EntidadFinanciera;
 import Gestores.Singleton;
+import Model.Movimiento;
 import Model.ThreadSimulador;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -13,7 +14,11 @@ import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Date;
+import java.util.Calendar;
 
 public class ControllerSimulador implements Initializable {
 
@@ -99,6 +104,32 @@ public class ControllerSimulador implements Initializable {
             Cliente clienteEncontrado = Cliente.filtrarCliente(idCliente);
 
             cuentasCliente.setItems(FXCollections.observableArrayList(clienteEncontrado.getNumeroCuentas()));
+
+        });
+
+        generarEstadoCuenta.setOnAction(event -> {
+            int idC = Integer.parseInt(idCuenta.getText());
+            
+            LocalDate ldInicio = fechaInicio.getValue();
+            Calendar c =  Calendar.getInstance();
+            c.set(ldInicio.getYear(), ldInicio.getMonthValue() - 1, ldInicio.getDayOfMonth());
+            Date fechaIn = c.getTime();
+
+            LocalDate ldFinal = fechaFin.getValue();
+            c = Calendar.getInstance();
+            c.set(ldFinal.getYear(), ldFinal.getMonthValue() - 1, ldFinal.getDayOfMonth());
+            Date fechaF = c.getTime();
+
+            ArrayList<Movimiento> movs = Singleton.getInstance().getGestor().verEstadoCuenta(idC, fechaIn, fechaF);
+
+            String aux = "";
+
+            for (Movimiento mov : movs) {
+                aux += mov.toString();
+                aux += "\n";
+            }
+
+            log.setText(aux);
 
         });
 

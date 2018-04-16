@@ -5,10 +5,10 @@ import javafx.scene.control.Alert;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by Javier on 2/19/2018.
@@ -129,6 +129,8 @@ public class GestorBD implements InterfazGestores {
         String sqlCuenta = "INSERT INTO CUENTA(fechaApertura,saldo,tipoCuenta,tipoMoneda,idCliente,operacionesRealizadas) VALUES(?,?,?,?,?,?)";
         int idMoneda = obtenerIdTipoMoneda(tipoMoneda.toString());
         try{
+            //Date sistema = new Date(fechaSistema.getTime());
+
             PreparedStatement insercionCuenta = conexion.prepareStatement(sqlCuenta);
 
             insercionCuenta.setDate(1,fechaSistema);
@@ -176,6 +178,7 @@ public class GestorBD implements InterfazGestores {
         }catch (SQLException e){
             e.printStackTrace();
         }
+
         return cuentaAhorros;
     }
 
@@ -390,21 +393,26 @@ public class GestorBD implements InterfazGestores {
                 ejecutarModificarAhorros.close();
             }else{
                 CuentaCorriente cuentaUsada = (CuentaCorriente) cuenta;
+
                 if(esExento)
                     cuentaUsada.setOperacionesRealizadas();
+
                 PreparedStatement ejecutarModificarCorriente = conexion.prepareStatement(sqlModificar);
                 ejecutarModificarCorriente.setBigDecimal(1, cuenta.getSaldo());
                 ejecutarModificarCorriente.setInt(2,cuentaUsada.getOpRealizadas());
                 ejecutarModificarCorriente.setInt(3,cuentaUsada.getNumeroCuenta());
+
                 ejecutarModificarCorriente.executeUpdate();
+
                 ejecutarModificarCorriente.close();
             }
+
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
+    public void agregarMovimiento(Operacion tipoOperacion, Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
         try{
             CuentaCorriente cc = (CuentaCorriente) cuenta;
             if (!esExento)
@@ -417,6 +425,8 @@ public class GestorBD implements InterfazGestores {
         String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";
 
         try{
+            //Date transacc = new Date(fechaTransaccion.getTime());
+
             PreparedStatement ejecutarMovimiento = conexion.prepareStatement(agregarMovimiento);
             ejecutarMovimiento.setInt(1,idOperacion);
             ejecutarMovimiento.setDate(2,fechaTransaccion);
@@ -460,5 +470,39 @@ public class GestorBD implements InterfazGestores {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Movimiento> verEstadoCuenta(int idCuenta, java.util.Date fechaInicio, java.util.Date fechaFin){
+        String consultarMovimientos = "SELECT * FROM MOVIMIENTO WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.FECHATRANSACCION BETWEEN ? AND ?";
+        ArrayList<Movimiento> movimientos = new ArrayList<Movimiento>();
+
+        try{
+            Date inicio = new Date(fechaInicio.getTime());
+            Date fin = new Date(fechaFin.getTime());
+
+            PreparedStatement consulta = conexion.prepareStatement(consultarMovimientos);
+            consulta.setInt(1, idCuenta);
+            consulta.setDate(2, inicio);
+            consulta.setDate(3, fin);
+
+            ResultSet movsEntreFechas = consulta.executeQuery();
+
+            while(movsEntreFechas.next()){
+                int idMovimiento = Integer.parseInt(movsEntreFechas.getString("ID"));
+                Date fechaTransaccion = movsEntreFechas.getDate("FECHATRANSACCION");
+                BigDecimal monto = movsEntreFechas.getBigDecimal("MONTO");
+                boolean cobroExento = (movsEntreFechas.getString("COBROEXENTO").equals("SI"));
+                Operacion operacion = Operacion.valueOf(movsEntreFechas.getString("TIPOOPERACION"));
+
+                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion));
+            }
+            consulta.close();
+            movsEntreFechas.close();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return movimientos;
     }
 }

@@ -375,14 +375,10 @@ public class GestorBD implements InterfazGestores {
 
     public void modificarCuenta(Cuenta cuenta, String tipoCuenta, boolean esExento){
         String sqlModificar = "";
-        if(tipoCuenta.equals("Ahorros")) {
+        if(tipoCuenta.equals("Ahorros"))
             sqlModificar = "UPDATE CUENTA SET SALDO = ? WHERE NUMEROCUENTA = ?";
-        }
-        else{
+        else
             sqlModificar = "UPDATE CUENTA SET SALDO = ?, OPERACIONESREALIZADAS = ? WHERE NUMEROCUENTA = ?";
-            cuenta = cuenta;
-        }
-
         try{
             if(tipoCuenta.equals("Ahorros")){
                 PreparedStatement ejecutarModificarAhorros = conexion.prepareStatement(sqlModificar);
@@ -394,29 +390,29 @@ public class GestorBD implements InterfazGestores {
                 ejecutarModificarAhorros.close();
             }else{
                 CuentaCorriente cuentaUsada = (CuentaCorriente) cuenta;
-
                 if(esExento)
                     cuentaUsada.setOperacionesRealizadas();
-
                 PreparedStatement ejecutarModificarCorriente = conexion.prepareStatement(sqlModificar);
                 ejecutarModificarCorriente.setBigDecimal(1, cuenta.getSaldo());
                 ejecutarModificarCorriente.setInt(2,cuentaUsada.getOpRealizadas());
                 ejecutarModificarCorriente.setInt(3,cuentaUsada.getNumeroCuenta());
-
                 ejecutarModificarCorriente.executeUpdate();
-
                 ejecutarModificarCorriente.close();
             }
-
-
-
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
     public void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
+        try{
+            CuentaCorriente cc = (CuentaCorriente) cuenta;
+            if (!esExento)
+                cc.cobroComisionNoExento(fechaTransaccion);
+        }
+        catch (ClassCastException e){
 
+        }
         int idOperacion = obtenerIdOperacion(tipoOperacion.toString());
         String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";
 

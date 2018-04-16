@@ -26,10 +26,10 @@ public class CuentaAhorros extends Cuenta {
         BigDecimal saldo = super.getSaldo();
         saldo = saldo.subtract(EntidadFinanciera.comisionCuentaAhorro);
         super.setSaldo(saldo);
-        Movimiento mov = new Movimiento(fechaTran, EntidadFinanciera.comisionCuentaAhorro, false, Operacion.COBRO_COMISION);
+        Movimiento mov = new Movimiento(fechaTran, EntidadFinanciera.comisionCuentaAhorro, true, Operacion.COBRO_COMISION);
         agregarMovimientos(mov);
         Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTran.getTime()), EntidadFinanciera.comisionCuentaAhorro,false,this);
-        Singleton.getInstance().getGestor().modificarCuenta(this, "Ahorros", false);
+        Singleton.getInstance().getGestor().modificarCuenta(this, "Ahorros", true);
     }
 
 }

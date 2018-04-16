@@ -68,6 +68,7 @@ public class ThreadSimulador implements Runnable {
                         cuenta.pagoIntereses(interesesAcumulados, dateActual);
                         operacionRealizada += "Aplicacion de intereses a por: " + interesesAcumulados.toString() +
                                 " fecha transaccion: " + dateActual.toString() + "\n";
+                        operacionRealizada += "Aplicacion de cobro de comisión" + "\n";
                     }
 
                     int tipoOp = ran.nextInt(4);

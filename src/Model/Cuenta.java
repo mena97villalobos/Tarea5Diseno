@@ -15,9 +15,6 @@ public abstract class Cuenta {
     private Cliente cliente;
     private BigDecimal saldo;
 
-
-
-
     public Cuenta(Date fechaApertura, Moneda moneda, Cliente cliente, BigDecimal saldo) {
         this.numeroCuenta = nextIdCuenta;
         nextIdCuenta++;

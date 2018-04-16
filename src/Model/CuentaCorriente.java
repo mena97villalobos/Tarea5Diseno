@@ -30,19 +30,32 @@ public class CuentaCorriente extends Cuenta {
             BigDecimal comision = EntidadFinanciera.comisionCuentaCorriente.multiply(new BigDecimal(diffOp));
             saldo = saldo.subtract(comision);
             super.setSaldo(saldo);
-            Movimiento mov = new Movimiento(fechaTransaccion, comision, false, Operacion.COBRO_COMISION);
+            Movimiento mov = new Movimiento(fechaTransaccion, comision, true, Operacion.COBRO_COMISION);
             agregarMovimientos(mov);
-            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTransaccion.getTime()),comision,false,this);
-            Singleton.getInstance().getGestor().modificarCuenta(this, "Corriente", false);
+            Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTransaccion.getTime()),comision,true,this);
+            Singleton.getInstance().getGestor().modificarCuenta(this, "Corriente", true);
             Singleton.getInstance().getGestor().setMovimientosHechos(super.getNumeroCuenta());
         }
     }
+
     public int getOpRealizadas() {
         return opRealizadas;
     }
 
     public void setOperacionesRealizadas(){
         this.opRealizadas++;
+    }
+
+    public void cobroComisionNoExento(Date fechaTransaccion){
+        BigDecimal saldo = super.getSaldo();
+        BigDecimal comision = EntidadFinanciera.comisionCuentaCorriente;
+        saldo = saldo.subtract(comision);
+        super.setSaldo(saldo);
+        Movimiento mov = new Movimiento(fechaTransaccion, comision, false, Operacion.COBRO_COMISION);
+        agregarMovimientos(mov);
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTransaccion.getTime()),comision,false,this);
+        Singleton.getInstance().getGestor().modificarCuenta(this, "Corriente", false);
+        Singleton.getInstance().getGestor().setMovimientosHechos(super.getNumeroCuenta());
     }
 
 }

@@ -472,18 +472,15 @@ public class GestorBD implements InterfazGestores {
         }
     }
 
-    public ArrayList<Movimiento> verEstadoCuenta(int idCuenta, java.util.Date fechaInicio, java.util.Date fechaFin){
+    public ArrayList<Movimiento> verEstadoCuenta(int idCuenta, Date fechaInicio, Date fechaFin){
         String consultarMovimientos = "SELECT * FROM MOVIMIENTO WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.FECHATRANSACCION BETWEEN ? AND ?";
         ArrayList<Movimiento> movimientos = new ArrayList<Movimiento>();
 
         try{
-            Date inicio = new Date(fechaInicio.getTime());
-            Date fin = new Date(fechaFin.getTime());
-
             PreparedStatement consulta = conexion.prepareStatement(consultarMovimientos);
             consulta.setInt(1, idCuenta);
-            consulta.setDate(2, inicio);
-            consulta.setDate(3, fin);
+            consulta.setDate(2, fechaInicio);
+            consulta.setDate(3, fechaFin);
 
             ResultSet movsEntreFechas = consulta.executeQuery();
 

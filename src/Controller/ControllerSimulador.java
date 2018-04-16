@@ -17,7 +17,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Calendar;
 
 public class ControllerSimulador implements Initializable {
@@ -111,14 +111,10 @@ public class ControllerSimulador implements Initializable {
             int idC = Integer.parseInt(idCuenta.getText());
             
             LocalDate ldInicio = fechaInicio.getValue();
-            Calendar c =  Calendar.getInstance();
-            c.set(ldInicio.getYear(), ldInicio.getMonthValue() - 1, ldInicio.getDayOfMonth());
-            Date fechaIn = c.getTime();
+            Date fechaIn = java.sql.Date.valueOf( ldInicio );
 
             LocalDate ldFinal = fechaFin.getValue();
-            c = Calendar.getInstance();
-            c.set(ldFinal.getYear(), ldFinal.getMonthValue() - 1, ldFinal.getDayOfMonth());
-            Date fechaF = c.getTime();
+            Date fechaF = java.sql.Date.valueOf( ldFinal );
 
             ArrayList<Movimiento> movs = Singleton.getInstance().getGestor().verEstadoCuenta(idC, fechaIn, fechaF);
 

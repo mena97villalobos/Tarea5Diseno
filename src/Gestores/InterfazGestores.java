@@ -6,7 +6,6 @@ import javafx.scene.control.Alert;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public interface InterfazGestores {
     void establecerConexionSuperUsuario();
@@ -54,7 +53,7 @@ public interface InterfazGestores {
 
     void agregarMovimiento(Operacion tipoOperacion, java.sql.Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta);
 
-    ArrayList<Movimiento> verEstadoCuenta(int idCuenta, java.util.Date fechaInicio, java.util.Date fechaFin);
+    ArrayList<Movimiento> verEstadoCuenta(int idCuenta, Date fechaInicio, Date fechaFin);
 
     int getOpRealizadas(int idCuenta);
 

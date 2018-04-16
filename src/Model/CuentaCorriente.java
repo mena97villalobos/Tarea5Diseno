@@ -53,7 +53,7 @@ public class CuentaCorriente extends Cuenta {
         super.setSaldo(saldo);
         Movimiento mov = new Movimiento(fechaTransaccion, comision, false, Operacion.COBRO_COMISION);
         agregarMovimientos(mov);
-        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTransaccion.getTime()),comision,false,this);
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.COBRO_COMISION,new java.sql.Date(fechaTransaccion.getTime()),comision,true,this);
         Singleton.getInstance().getGestor().modificarCuenta(this, "Corriente", false);
         Singleton.getInstance().getGestor().setMovimientosHechos(super.getNumeroCuenta());
     }

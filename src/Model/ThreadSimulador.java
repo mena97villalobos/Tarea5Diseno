@@ -100,6 +100,7 @@ public class ThreadSimulador implements Runnable {
                     cantMovimientos--;
                     this.updateMessage(operacionRealizada);
                 }
+                this.updateMessage(operacionRealizada + "\n" + "Transacciones completadas");
                 return null;
             }
         };

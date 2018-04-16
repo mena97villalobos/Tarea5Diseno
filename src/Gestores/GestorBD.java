@@ -411,7 +411,7 @@ public class GestorBD implements InterfazGestores {
                 cc.cobroComisionNoExento(fechaTransaccion);
         }
         catch (ClassCastException e){
-
+            e.printStackTrace();
         }
         int idOperacion = obtenerIdOperacion(tipoOperacion.toString());
         String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";

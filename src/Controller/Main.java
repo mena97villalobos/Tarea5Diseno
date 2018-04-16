@@ -17,7 +17,7 @@ public class Main extends Application {
         controladorSimulador.datosDefecto();
 
         primaryStage.setTitle("Simulador");
-        primaryStage.setScene(new Scene(root, 1033, 360));
+        primaryStage.setScene(new Scene(root, 1033, 630));
         primaryStage.show();
     }
 

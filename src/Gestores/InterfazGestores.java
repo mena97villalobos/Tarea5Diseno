@@ -57,6 +57,6 @@ public interface InterfazGestores {
 
     int getOpRealizadas(int idCuenta);
 
-    void setMovimientosHechos(int idCuenta);
+    void setMovimientosHechos(CuentaCorriente c);
 
 }

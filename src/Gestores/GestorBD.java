@@ -129,8 +129,6 @@ public class GestorBD implements InterfazGestores {
         String sqlCuenta = "INSERT INTO CUENTA(fechaApertura,saldo,tipoCuenta,tipoMoneda,idCliente,operacionesRealizadas) VALUES(?,?,?,?,?,?)";
         int idMoneda = obtenerIdTipoMoneda(tipoMoneda.toString());
         try{
-            //Date sistema = new Date(fechaSistema.getTime());
-
             PreparedStatement insercionCuenta = conexion.prepareStatement(sqlCuenta);
 
             insercionCuenta.setDate(1,fechaSistema);
@@ -178,7 +176,6 @@ public class GestorBD implements InterfazGestores {
         }catch (SQLException e){
             e.printStackTrace();
         }
-
         return cuentaAhorros;
     }
 
@@ -412,21 +409,12 @@ public class GestorBD implements InterfazGestores {
         }
     }
 
-    public void agregarMovimiento(Operacion tipoOperacion, Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
-        try{
-            CuentaCorriente cc = (CuentaCorriente) cuenta;
-            if (!esExento)
-                cc.cobroComisionNoExento(fechaTransaccion);
-        }
-        catch (ClassCastException e){
-            e.printStackTrace();
-        }
+    public void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
+
         int idOperacion = obtenerIdOperacion(tipoOperacion.toString());
         String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";
 
         try{
-            //Date transacc = new Date(fechaTransaccion.getTime());
-
             PreparedStatement ejecutarMovimiento = conexion.prepareStatement(agregarMovimiento);
             ejecutarMovimiento.setInt(1,idOperacion);
             ejecutarMovimiento.setDate(2,fechaTransaccion);
@@ -440,6 +428,16 @@ public class GestorBD implements InterfazGestores {
         }catch (SQLException e){
             e.printStackTrace();
         }
+
+        try{
+            CuentaCorriente cc = (CuentaCorriente) cuenta;
+            if (!esExento)
+                cc.cobroComisionNoExento(fechaTransaccion);
+        }
+        catch (ClassCastException e){
+            e.printStackTrace();
+        }
+
     }
 
     public int getOpRealizadas(int idCuenta){
@@ -460,11 +458,13 @@ public class GestorBD implements InterfazGestores {
         return realizadas;
     }
 
-    public void setMovimientosHechos(int idCuenta){
+    public void setMovimientosHechos(CuentaCorriente cuenta){
+        cuenta.resetOperacionesRealizadas();
+
         String sqlModificar = "UPDATE CUENTA SET OPERACIONESREALIZADAS = 0 WHERE NUMEROCUENTA = ?";
         try{
             PreparedStatement ejecutarModificar = conexion.prepareStatement(sqlModificar);
-            ejecutarModificar.setInt(1, idCuenta);
+            ejecutarModificar.setInt(1, cuenta.getNumeroCuenta());
             ejecutarModificar.executeUpdate();
             ejecutarModificar.close();
         }catch (SQLException e){

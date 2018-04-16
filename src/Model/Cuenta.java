@@ -41,11 +41,12 @@ public abstract class Cuenta {
 
     public abstract void cobrarComision(Date fechaTran);
 
-    public void pagoIntereses(BigDecimal monto, Date fechaTransaccion){
+    public void pagoIntereses(BigDecimal monto, Date fechaTransaccion,String tipoCuenta){
         Movimiento mov = new Movimiento(fechaTransaccion, monto, false, Operacion.PAGO_INTERESES);
         agregarMovimientos(mov);
         saldo = saldo.add(monto);
-        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.PAGO_INTERESES,new java.sql.Date(fechaTransaccion.getTime()),monto,false,this);
+        Singleton.getInstance().getGestor().agregarMovimiento(Operacion.PAGO_INTERESES,new java.sql.Date(fechaTransaccion.getTime()),monto,(tipoCuenta.equals("Corriente")),this);
+        Singleton.getInstance().getGestor().modificarCuenta(this,tipoCuenta,(tipoCuenta.equals("Ahorros")));
     }
 
     private void obtenerMovimientos(Date fechaInicio, Date fechaFin){

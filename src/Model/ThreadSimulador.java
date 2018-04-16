@@ -46,6 +46,7 @@ public class ThreadSimulador implements Runnable {
             @Override
             protected Void call() throws Exception {
                 String operacionRealizada = "";
+                System.out.print("Cantidad de Movimientos: "+cantMovimientos);
                 while(cantMovimientos != 0) {
                     Calendar sDate = Calendar.getInstance();
                     Calendar eDate = Calendar.getInstance();
@@ -65,7 +66,7 @@ public class ThreadSimulador implements Runnable {
                             interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresCorriente);
                             cuenta.cobrarComision(dateActual);
                         }
-                        cuenta.pagoIntereses(interesesAcumulados, dateActual);
+                        cuenta.pagoIntereses(interesesAcumulados, dateActual,tipoCuenta);
                         operacionRealizada += "Aplicacion de intereses a por: " + interesesAcumulados.toString() +
                                 " fecha transaccion: " + dateActual.toString() + "\n";
                         operacionRealizada += "Aplicacion de cobro de comisión" + "\n";

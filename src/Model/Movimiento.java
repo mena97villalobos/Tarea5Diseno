@@ -12,8 +12,11 @@ public class Movimiento {
     private BigDecimal monto;
     private boolean cobroExento;
     private Operacion operacion;
+    private BigDecimal saldoActual;
 
-    public Movimiento(Date fechaTransaccion,BigDecimal monto, boolean cobroExento, Operacion operacion) {
+
+
+    public Movimiento(Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion) {
         this.idOperacion = nextID;
         nextID ++;
         this.monto = monto;
@@ -23,12 +26,13 @@ public class Movimiento {
     }
 
     // Constructor para obtener datos de la Base
-    public Movimiento(int idOperacion, Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion) {
+    public Movimiento(int idOperacion, Date fechaTransaccion, BigDecimal monto, boolean cobroExento, Operacion operacion, BigDecimal saldoActual) {
         this.idOperacion = idOperacion;
         this.fechaTransaccion = fechaTransaccion;
         this.monto = monto;
         this.cobroExento = cobroExento;
         this.operacion = operacion;
+        this.saldoActual = saldoActual;
     }
 
     public int getIdOperacion() {
@@ -73,5 +77,13 @@ public class Movimiento {
 
     private static int obtenerUltimoIdMov(){
         return Singleton.getInstance().getGestor().getLastValueMov();
+    }
+
+    public BigDecimal getSaldoActual() {
+        return saldoActual;
+    }
+
+    public void setSaldoActual(BigDecimal saldoActual) {
+        this.saldoActual = saldoActual;
     }
 }

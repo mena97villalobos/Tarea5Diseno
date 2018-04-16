@@ -346,7 +346,7 @@ public class GestorBD implements InterfazGestores {
     }
 
     public ArrayList<Movimiento> getMovimientosCuenta(Cuenta cuenta){
-        String sqlMovimientos = "SELECT MOVIMIENTO.ID,FECHATRANSACCION,MONTO,COBROEXENTO, OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
+        String sqlMovimientos = "SELECT MOVIMIENTO.ID,FECHATRANSACCION,MONTO,COBROEXENTO,SALDOACTUAL,OPERACION.TIPOOPERACION FROM MOVIMIENTO,OPERACION WHERE MOVIMIENTO.IDCUENTA = ? AND MOVIMIENTO.IDOPERACION = OPERACION.ID";
         ArrayList<Movimiento> movimientos = new ArrayList<>();
         try{
             PreparedStatement ejecutarMovimientos = conexion.prepareStatement(sqlMovimientos);
@@ -360,8 +360,9 @@ public class GestorBD implements InterfazGestores {
                 BigDecimal monto = movimientosObtenidos.getBigDecimal("MONTO");
                 boolean cobroExento = (movimientosObtenidos.getString("COBROEXENTO").equals("SI"));
                 Operacion operacion = Operacion.valueOf(movimientosObtenidos.getString("TIPOOPERACION"));
+                BigDecimal saldoActual = movimientosObtenidos.getBigDecimal("SALDOACTUAL");//TODO CAMBIO AQUI
 
-                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion));
+                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion,saldoActual));
 
             }
             ejecutarMovimientos.close();
@@ -412,7 +413,7 @@ public class GestorBD implements InterfazGestores {
     public void agregarMovimiento(Operacion tipoOperacion,Date fechaTransaccion, BigDecimal monto, boolean esExento, Cuenta cuenta){
 
         int idOperacion = obtenerIdOperacion(tipoOperacion.toString());
-        String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA) VALUES(?,?,?,?,?)";
+        String agregarMovimiento = "INSERT INTO MOVIMIENTO(IDOPERACION,FECHATRANSACCION,MONTO,COBROEXENTO,IDCUENTA,SALDOACTUAL) VALUES(?,?,?,?,?,?)"; //TODO CAMBIO AQUI, UN PARAMETRO MAS
 
         try{
             PreparedStatement ejecutarMovimiento = conexion.prepareStatement(agregarMovimiento);
@@ -421,6 +422,7 @@ public class GestorBD implements InterfazGestores {
             ejecutarMovimiento.setBigDecimal(3,monto);
             ejecutarMovimiento.setString(4,(esExento ? "SI" : "NO"));
             ejecutarMovimiento.setInt(5,cuenta.getNumeroCuenta());
+            ejecutarMovimiento.setBigDecimal(6,cuenta.getSaldo());
 
             ejecutarMovimiento.executeUpdate();
 
@@ -490,8 +492,9 @@ public class GestorBD implements InterfazGestores {
                 BigDecimal monto = movsEntreFechas.getBigDecimal("MONTO");
                 boolean cobroExento = (movsEntreFechas.getString("COBROEXENTO").equals("SI"));
                 Operacion operacion = Operacion.valueOf(movsEntreFechas.getString("TIPOOPERACION"));
+                BigDecimal saldoActual = movsEntreFechas.getBigDecimal("SALDOACTUAL");
 
-                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion));
+                movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion,saldoActual));
             }
             consulta.close();
             movsEntreFechas.close();
@@ -502,4 +505,6 @@ public class GestorBD implements InterfazGestores {
 
         return movimientos;
     }
+
+
 }

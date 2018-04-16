@@ -93,14 +93,14 @@ public class GestorBD implements InterfazGestores {
 
     public int getLastValueCliente(){
         int nextId = 0;
-        String sqlUltimoValor = "SELECT MAX(id)+1 as ULTIMOID FROM CLIENTE";
+        String sqlUltimoValor = "SELECT (CASE WHEN MAX(ID) IS NULL THEN 1 ELSE MAX(ID)+1 END) AS ID FROM CLIENTE;";
 
         try{
             PreparedStatement ejecutarUltimoValor = conexion.prepareStatement(sqlUltimoValor);
             ResultSet siguienteId = ejecutarUltimoValor.executeQuery();
 
             while(siguienteId.next()){
-                nextId = Integer.parseInt(siguienteId.getString("ULTIMOID"));
+                nextId = Integer.parseInt(siguienteId.getString("ID"));
             }
 
             ejecutarUltimoValor.close();
@@ -330,13 +330,13 @@ public class GestorBD implements InterfazGestores {
 
     public int getLastValueMov(){
         int nextId = 0;
-        String sqlUltimoValor = "SELECT MAX(id)+1 as id FROM MOVIMIENTO";
+        String sqlUltimoValor = "SELECT (CASE WHEN MAX(ID) IS NULL THEN 1 ELSE MAX(ID)+1 END) AS ID FROM MOVIMIENTO;";
 
         try{
             PreparedStatement ejecutarUltimoValor = conexion.prepareStatement(sqlUltimoValor);
             ResultSet siguienteId = ejecutarUltimoValor.executeQuery();
-            if (siguienteId.next()){
-                nextId = Integer.parseInt(siguienteId.getString("id"));
+            while (siguienteId.next()){
+                nextId = Integer.parseInt(siguienteId.getString("ID"));
             }
             ejecutarUltimoValor.close();
             siguienteId.close();

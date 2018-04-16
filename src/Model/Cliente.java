@@ -63,7 +63,7 @@ public class Cliente {
 
     public void deposito(int numeroCuenta, BigDecimal monto, Date fechaTransaccion, String tipoCuenta, boolean esExento){
         Movimiento mov = new Movimiento(fechaTransaccion, monto, esExento, Operacion.DEPOSITO);
-        Cuenta cuenta = obtenerCuenta(tipoCuenta,numeroCuenta);
+        Cuenta cuenta = obtenerCuenta(tipoCuenta, numeroCuenta);
         cuenta = (tipoCuenta.equals("Ahorros")? (CuentaAhorros)cuenta : (CuentaCorriente)cuenta);
         cuenta.agregarMovimientos(mov);
         cuenta.setSaldo(cuenta.getSaldo().add(monto));

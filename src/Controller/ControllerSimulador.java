@@ -71,6 +71,9 @@ public class ControllerSimulador implements Initializable {
     @FXML
     public Button guardarVariables;
 
+    @FXML
+    public TextArea log;
+
     public void initialize(URL location, ResourceBundle resources) {
 
         guardarVariables.setOnAction(event -> {
@@ -100,21 +103,25 @@ public class ControllerSimulador implements Initializable {
         });
 
         iniciarSimulacion.setOnAction(event -> {
-            boolean operacionesExentas[] = {retiros.isSelected(), deposito.isSelected(), comprar.isSelected(), cajeros.isSelected()};
-            String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0, clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
-            int numeroCuenta = Integer.parseInt(cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(0, cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-")));
-            String tipoCuenta = cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-"), cuentasCliente.getSelectionModel().getSelectedItem().toString().length());
-
-
-            Cliente clienteSimular = Cliente.filtrarCliente(idCliente);
-
-            ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, Singleton.getInstance().getGestor().obtenerFechaSistema(), tipoCuenta);
-
-            //ts.run();
+            simulador();
         });
 
 
 
+    }
+
+    public void simulador(){
+        boolean operacionesExentas[] = {retiros.isSelected(), deposito.isSelected(), comprar.isSelected(), cajeros.isSelected()};
+        String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0, clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
+        int numeroCuenta = Integer.parseInt(cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(0, cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-")));
+        String tipoCuenta = cuentasCliente.getSelectionModel().getSelectedItem().toString().substring(cuentasCliente.getSelectionModel().getSelectedItem().toString().indexOf("-")+1, cuentasCliente.getSelectionModel().getSelectedItem().toString().length());
+
+
+        Cliente clienteSimular = Cliente.filtrarCliente(idCliente);
+
+        ThreadSimulador ts = new ThreadSimulador(clienteSimular, operacionesExentas, numeroCuenta, Singleton.getInstance().getGestor().obtenerFechaSistema(), tipoCuenta);
+        ts.cs = this;
+        ts.run();
     }
 
     public void limpiarVariables() {

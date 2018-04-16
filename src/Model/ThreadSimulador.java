@@ -1,5 +1,9 @@
 package Model;
 
+import Controller.ControllerSimulador;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,8 +24,7 @@ public class ThreadSimulador implements Runnable {
 
     private Random ran;
     private int avanceFecha;
-    private int cantMovimientos;// = ran.nextInt(41);
-
+    private int cantMovimientos;
     private Cliente cliente;// = null;
     private boolean listaOperacionesExentas [];
     private int numeroCuenta;
@@ -29,6 +32,7 @@ public class ThreadSimulador implements Runnable {
     private Date dateUsado;
     private String tipoCuenta;
     private boolean cambioMes = false;
+    public ControllerSimulador cs;
 
     public ThreadSimulador(Cliente cliente, boolean operacionesExentas[], int numeroCuenta, Date fechaInicio, String tipoCuenta){
         this.ran = new Random();
@@ -44,55 +48,69 @@ public class ThreadSimulador implements Runnable {
 
     @Override
     public void run() {
-        while(this.cantMovimientos != 0){
+        Task task = new Task() {
+            @Override
+            protected Void call() throws Exception {
+                String operacionRealizada = "";
+                while(cantMovimientos != 0) {
+                    Calendar sDate = Calendar.getInstance();
+                    Calendar eDate = Calendar.getInstance();
+                    sDate.setTime(dateUsado);
+                    eDate.setTime(dateActual);
+                    int difInMonths = sDate.get(Calendar.MONTH) - eDate.get(Calendar.MONTH);
+                    //
 
-            //Calculo diferencia entre fechas
-            Calendar sDate = Calendar.getInstance();
-            Calendar eDate = Calendar.getInstance();
-            sDate.setTime(dateUsado);
-            eDate.setTime(dateActual);
-            int difInMonths = sDate.get(Calendar.MONTH) - eDate.get(Calendar.MONTH);
-            //
+                    if (difInMonths != 0) {
+                        Cuenta cuenta = cliente.obtenerCuenta(tipoCuenta, numeroCuenta);
+                        BigDecimal saldoActual = cuenta.getSaldo();
+                        BigDecimal interesesAcumulados;
+                        if (tipoCuenta.equals("Ahorros")) {
+                            System.out.println("Calcular intereses cuenta ahooros");
+                            interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresAhorros);
+                        } else {
+                            System.out.println("Calcular intereses cuenta corriente");
+                            interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresCorriente);
+                        }
+                        cuenta.pagoIntereses(interesesAcumulados, dateActual);
+                        operacionRealizada += "Aplicacion de intereses a por: " + interesesAcumulados.toString() +
+                                " fecha transaccion: " + dateActual.toString() + "\n";
+                    }
 
-            if(difInMonths != 0){
-                Cuenta cuenta = cliente.obtenerCuenta(tipoCuenta, numeroCuenta);
-                BigDecimal saldoActual = cuenta.getSaldo();
-                BigDecimal interesesAcumulados;
-                if(tipoCuenta.equals("Ahorros")){
-                    System.out.println("Calcular intereses cuenta ahooros");
-                    interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresAhorros);
+                    int tipoOp = ran.nextInt(4);
+                    BigDecimal montoTran = new BigDecimal(ran.nextInt(10000));
+                    switch (tipoOp) {
+                        case 0:
+                            System.out.println("Caso Retiro");
+                            cliente.retiro(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[0]);
+                            operacionRealizada += "Operacion realizada: RETIRO monto: " + montoTran.toString() + " fecha: " + dateActual.toString() + "\n";
+                            break;
+                        case 1:
+                            System.out.println("Caso Deposito");
+                            cliente.deposito(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[1]);
+                            operacionRealizada += "Operacion realizada: DEPOSITO monto: " + montoTran.toString() + " fecha: " + dateActual.toString() + "\n";
+                            break;
+                        case 2:
+                            System.out.println("Caso Compra Comercio");
+                            cliente.compra_comercio(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[2]);
+                            operacionRealizada += "Operacion realizada: COMPRA COMERCIO monto: " + montoTran.toString() + " fecha: " + dateActual.toString() + "\n";
+                            break;
+                        case 3:
+                            System.out.println("Caso Retiro Cajero");
+                            cliente.retiro_cajero(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[3]);
+                            operacionRealizada += "Operacion realizada: RETIRO CAJERO monto: " + montoTran.toString() + " fecha: " + dateActual.toString() + "\n";
+                            break;
+                    }
+                    dateUsado = dateActual;
+                    dateActual = aumentarFecha(dateActual);
+                    cantMovimientos--;
+                    this.updateMessage(operacionRealizada);
                 }
-                else{
-                    System.out.println("Calcular intereses cuenta corriente");
-                    interesesAcumulados = saldoActual.multiply(EntidadFinanciera.tasaInteresCorriente);
-                }
-                cuenta.pagoIntereses(interesesAcumulados, dateActual);
+                return null;
             }
-
-            int tipoOp = this.ran.nextInt(4);
-            BigDecimal montoTran = new BigDecimal(ran.nextInt(10000));
-            switch (tipoOp) {
-                case 0:
-                    System.out.println("Caso Retiro");
-                    this.cliente.retiro(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[0]);
-                    break;
-                case 1:
-                    System.out.println("Caso Deposito");
-                    this.cliente.deposito(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[1]);
-                    break;
-                case 2:
-                    System.out.println("Caso Compra Comercio");
-                    this.cliente.compra_comercio(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[2]);
-                    break;
-                case 3:
-                    System.out.println("Caso Retiro Cajero");
-                    this.cliente.retiro_cajero(numeroCuenta, montoTran, dateActual, tipoCuenta, listaOperacionesExentas[3]);
-                    break;
-            }
-            dateUsado = dateActual;
-            dateActual = aumentarFecha(dateActual);
-            this.cantMovimientos--;
-        }
+        };
+        Thread t = new Thread(task);
+        cs.log.textProperty().bind(task.messageProperty());
+        t.start();
     }
 
     public Date aumentarFecha(Date fechaInicio){

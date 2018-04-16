@@ -9,11 +9,9 @@ import java.util.Date;
 public class Cliente {
 
     private static ArrayList<Cliente> clientes = obtenerClientes();
-
     private static int nextId = obtenerUltimoIdCliente(); // Esta funcion busca en la base si hay clientes y extrae la ultima identificacion, si no hay clientes deberia poner el valor que este en la semilla de esa tabla, se asume que deberia ser 1, en caso de no ser asi, buscar algo que devuelva el numero donde quedo la semilla
     private int id;
     private String nombreCompleto;
-
     private ArrayList<CuentaAhorros> cuentasAhorros = new ArrayList<>();
     private ArrayList<CuentaCorriente> cuentasCorriente = new ArrayList<>();
 

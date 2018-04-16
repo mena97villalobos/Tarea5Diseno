@@ -102,29 +102,22 @@ public class ControllerSimulador implements Initializable {
         clientesSimulacion.setOnAction(event -> {
             String idCliente = clientesSimulacion.getSelectionModel().getSelectedItem().toString().substring(0, clientesSimulacion.getSelectionModel().getSelectedItem().toString().indexOf("-"));
             Cliente clienteEncontrado = Cliente.filtrarCliente(idCliente);
-
             cuentasCliente.setItems(FXCollections.observableArrayList(clienteEncontrado.getNumeroCuentas()));
 
         });
 
         generarEstadoCuenta.setOnAction(event -> {
             int idC = Integer.parseInt(idCuenta.getText());
-            
             LocalDate ldInicio = fechaInicio.getValue();
             Date fechaIn = java.sql.Date.valueOf( ldInicio );
-
             LocalDate ldFinal = fechaFin.getValue();
             Date fechaF = java.sql.Date.valueOf( ldFinal );
-
             ArrayList<Movimiento> movs = Singleton.getInstance().getGestor().verEstadoCuenta(idC, fechaIn, fechaF);
-
-            String aux = "";
-
+            String aux = "Estado de cuenta: \n";
             for (Movimiento mov : movs) {
                 aux += mov.toString();
                 aux += "\n";
             }
-
             log.setText(aux);
 
         });

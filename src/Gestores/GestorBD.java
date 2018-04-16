@@ -491,7 +491,7 @@ public class GestorBD implements InterfazGestores {
                 Date fechaTransaccion = movsEntreFechas.getDate("FECHATRANSACCION");
                 BigDecimal monto = movsEntreFechas.getBigDecimal("MONTO");
                 boolean cobroExento = (movsEntreFechas.getString("COBROEXENTO").equals("SI"));
-                Operacion operacion = Operacion.valueOf(movsEntreFechas.getString("TIPOOPERACION"));
+                Operacion operacion =  Operacion.getByID(movsEntreFechas.getInt("IDOPERACION"));
                 BigDecimal saldoActual = movsEntreFechas.getBigDecimal("SALDOACTUAL");
 
                 movimientos.add(new Movimiento(idMovimiento,fechaTransaccion,monto,cobroExento,operacion,saldoActual));

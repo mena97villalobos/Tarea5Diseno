@@ -86,4 +86,14 @@ public class Movimiento {
     public void setSaldoActual(BigDecimal saldoActual) {
         this.saldoActual = saldoActual;
     }
+
+    @Override
+    public String toString() {
+        return "Movimiento: " +
+                "fechaTransaccion = " + fechaTransaccion.toString() +
+                ", monto = " + monto.toString() +
+                ", cobroExento = " + cobroExento +
+                ", operacion = " + operacion.toString() +
+                ", saldoActual=" + saldoActual.toString();
+    }
 }

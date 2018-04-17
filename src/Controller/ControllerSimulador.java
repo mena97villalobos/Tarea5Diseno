@@ -118,6 +118,9 @@ public class ControllerSimulador implements Initializable {
                 aux += mov.toString();
                 aux += "\n";
             }
+
+            if(log.textProperty().isBound())
+                log.textProperty().unbind();
             log.setText(aux);
 
         });
